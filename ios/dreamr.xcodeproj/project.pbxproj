@@ -7,11 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0FAEC9B0672942C5A4CE89E0 /* PPNeueMontreal-Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = D99A99C2BC5240509F08C5D5 /* PPNeueMontreal-Italic.otf */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
+		19637B6A331042F3B2441EAF /* PPNeueMontreal-SemiBolditalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1A5E5AB25B1B40BCA8B8FE79 /* PPNeueMontreal-SemiBolditalic.otf */; };
 		29971A42BA9B721A9132165A /* libPods-dreamr.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE381F0A7B56EE5A3C8AF0C0 /* libPods-dreamr.a */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
+		5CFACAD53E204CE5935F3A3C /* PPNeueMontreal-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = F39C287256D044F3A7FF2F61 /* PPNeueMontreal-Bold.otf */; };
 		6908060097F1233683CBE835 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3240C5C290DCB99D1266BC /* ExpoModulesProvider.swift */; };
+		6D0B46364AD647D99C00F45C /* Borel-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C509CBEA9B9C426A824BFED6 /* Borel-Regular.ttf */; };
+		9139E1F83F384C87B8CAEFB6 /* PPNeueMontreal-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = D3A2031732F740488BAE7B11 /* PPNeueMontreal-Thin.otf */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
+		C4BC2E6137244CE4974F5958 /* PPNeueMontreal-Book.otf in Resources */ = {isa = PBXBuildFile; fileRef = EA4AD08964904D75A12F5913 /* PPNeueMontreal-Book.otf */; };
+		CB244E55CB8044B884C5BE32 /* PPNeueMontreal-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 367FB5E15529483BA5CE67BB /* PPNeueMontreal-Medium.otf */; };
 		EF98043A236AA142B9DEAC45 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 26B3639A7915A0D6DE432E2D /* PrivacyInfo.xcprivacy */; };
 		F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11748412D0307B40044C1D9 /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
@@ -20,16 +27,23 @@
 		13B07F961A680F5B00A75B9A /* dreamr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = dreamr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = dreamr/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = dreamr/Info.plist; sourceTree = "<group>"; };
+		1A5E5AB25B1B40BCA8B8FE79 /* PPNeueMontreal-SemiBolditalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PPNeueMontreal-SemiBolditalic.otf"; path = "../assets/fonts/PPNeueMontreal-SemiBolditalic.otf"; sourceTree = "<group>"; };
 		1B5B7B8FCE325EC91189ECF1 /* Pods-dreamr.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dreamr.release.xcconfig"; path = "Target Support Files/Pods-dreamr/Pods-dreamr.release.xcconfig"; sourceTree = "<group>"; };
 		26B3639A7915A0D6DE432E2D /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = dreamr/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		367FB5E15529483BA5CE67BB /* PPNeueMontreal-Medium.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PPNeueMontreal-Medium.otf"; path = "../assets/fonts/PPNeueMontreal-Medium.otf"; sourceTree = "<group>"; };
 		4C76002208E4FCAD2B6BABEE /* Pods-dreamr.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dreamr.debug.xcconfig"; path = "Target Support Files/Pods-dreamr/Pods-dreamr.debug.xcconfig"; sourceTree = "<group>"; };
 		7C3240C5C290DCB99D1266BC /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-dreamr/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = dreamr/SplashScreen.storyboard; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
+		C509CBEA9B9C426A824BFED6 /* Borel-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Borel-Regular.ttf"; path = "../assets/fonts/Borel-Regular.ttf"; sourceTree = "<group>"; };
+		D3A2031732F740488BAE7B11 /* PPNeueMontreal-Thin.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PPNeueMontreal-Thin.otf"; path = "../assets/fonts/PPNeueMontreal-Thin.otf"; sourceTree = "<group>"; };
+		D99A99C2BC5240509F08C5D5 /* PPNeueMontreal-Italic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PPNeueMontreal-Italic.otf"; path = "../assets/fonts/PPNeueMontreal-Italic.otf"; sourceTree = "<group>"; };
+		EA4AD08964904D75A12F5913 /* PPNeueMontreal-Book.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PPNeueMontreal-Book.otf"; path = "../assets/fonts/PPNeueMontreal-Book.otf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		EE381F0A7B56EE5A3C8AF0C0 /* libPods-dreamr.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-dreamr.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = dreamr/AppDelegate.swift; sourceTree = "<group>"; };
 		F11748442D0722820044C1D9 /* dreamr-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "dreamr-Bridging-Header.h"; path = "dreamr/dreamr-Bridging-Header.h"; sourceTree = "<group>"; };
+		F39C287256D044F3A7FF2F61 /* PPNeueMontreal-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PPNeueMontreal-Bold.otf"; path = "../assets/fonts/PPNeueMontreal-Bold.otf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +97,21 @@
 			name = dreamr;
 			sourceTree = "<group>";
 		};
+		6BD3774F91AB49409E1A9B11 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C509CBEA9B9C426A824BFED6 /* Borel-Regular.ttf */,
+				EA4AD08964904D75A12F5913 /* PPNeueMontreal-Book.otf */,
+				F39C287256D044F3A7FF2F61 /* PPNeueMontreal-Bold.otf */,
+				D99A99C2BC5240509F08C5D5 /* PPNeueMontreal-Italic.otf */,
+				367FB5E15529483BA5CE67BB /* PPNeueMontreal-Medium.otf */,
+				1A5E5AB25B1B40BCA8B8FE79 /* PPNeueMontreal-SemiBolditalic.otf */,
+				D3A2031732F740488BAE7B11 /* PPNeueMontreal-Thin.otf */,
+			);
+			name = Resources;
+			path = "";
+			sourceTree = "<group>";
+		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
@@ -99,6 +128,7 @@
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				FD762480E5B0AC96045F958E /* Pods */,
 				37CE5E826AA6E19241018D1E /* ExpoModulesProviders */,
+				6BD3774F91AB49409E1A9B11 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -197,6 +227,13 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
 				EF98043A236AA142B9DEAC45 /* PrivacyInfo.xcprivacy in Resources */,
+				6D0B46364AD647D99C00F45C /* Borel-Regular.ttf in Resources */,
+				C4BC2E6137244CE4974F5958 /* PPNeueMontreal-Book.otf in Resources */,
+				5CFACAD53E204CE5935F3A3C /* PPNeueMontreal-Bold.otf in Resources */,
+				0FAEC9B0672942C5A4CE89E0 /* PPNeueMontreal-Italic.otf in Resources */,
+				CB244E55CB8044B884C5BE32 /* PPNeueMontreal-Medium.otf in Resources */,
+				19637B6A331042F3B2441EAF /* PPNeueMontreal-SemiBolditalic.otf in Resources */,
+				9139E1F83F384C87B8CAEFB6 /* PPNeueMontreal-Thin.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -289,6 +326,7 @@
 				"${PODS_CONFIGURATION_BUILD_DIR}/ExpoFileSystem/ExpoFileSystem_privacy.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/ExpoSystemUI/ExpoSystemUI_privacy.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/RCT-Folly/RCT-Folly_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/RNSVG/RNSVGFilters.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/React-Core_privacy.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/React-cxxreact/React-cxxreact_privacy.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/SDWebImage/SDWebImage.bundle",
@@ -304,6 +342,7 @@
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoFileSystem_privacy.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoSystemUI_privacy.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RCT-Folly_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RNSVGFilters.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/React-Core_privacy.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/React-cxxreact_privacy.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SDWebImage.bundle",

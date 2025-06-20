@@ -1,43 +1,71 @@
 {
-  "expo": {
-    "name": "dreamr",
-    "slug": "dreamr",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "scheme": "dreamr",
-    "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.dreamr"
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "edgeToEdgeEnabled": true
-    },
-    "web": {
-      "bundler": "metro",
-      "output": "static",
-      "favicon": "./assets/images/favicon.png"
-    },
-    "plugins": [
-      "expo-router",
-      [
-        "expo-splash-screen",
-        {
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+    "expo": {
+        "name": "dreamr",
+        "slug": "dreamr",
+        "version": "1.0.0",
+        "orientation": "portrait",
+        "icon": "./assets/images/icon.png",
+        "scheme": "dreamr",
+        "userInterfaceStyle": "automatic",
+        "newArchEnabled": true,
+        "ios": {
+            "supportsTablet": true,
+            "bundleIdentifier": "com.anonymous.dreamr"
+        },
+        "android": {
+            "adaptiveIcon": {
+                "foregroundImage": "./assets/images/adaptive-icon.png",
+                "backgroundColor": "#ffffff"
+            },
+            "edgeToEdgeEnabled": true,
+            "package": "com.anonymous.dreamr"
+        },
+        "web": {
+            "bundler": "metro",
+            "output": "static",
+            "favicon": "./assets/images/favicon.png"
+        },
+        "plugins": [
+            "expo-router",
+            [
+                "expo-splash-screen",
+                {
+                    "image": "./assets/images/splash-icon.png",
+                    "imageWidth": 200,
+                    "resizeMode": "contain",
+                    "backgroundColor": "#ffffff"
+                }
+            ],
+            [
+                "expo-font",
+                {
+                    "fonts": [
+                        "./assets/fonts/Borel-Regular.ttf",
+                        "./assets/fonts/PPNeueMontreal-Book.otf",
+                        "./assets/fonts/PPNeueMontreal-Bold.otf",
+                        "./assets/fonts/PPNeueMontreal-Italic.otf",
+                        "./assets/fonts/PPNeueMontreal-Medium.otf",
+                        "./assets/fonts/PPNeueMontreal-SemiBolditalic.otf",
+                        "./assets/fonts/PPNeueMontreal-Thin.otf"
+                    ],
+                    "ios": {
+                        "fonts": [
+                            "./assets/fonts/Borel-Regular.ttf",
+                            "./assets/fonts/PPNeueMontreal-Book.otf",
+                            "./assets/fonts/PPNeueMontreal-Bold.otf",
+                            "./assets/fonts/PPNeueMontreal-Italic.otf",
+                            "./assets/fonts/PPNeueMontreal-Medium.otf",
+                            "./assets/fonts/PPNeueMontreal-SemiBolditalic.otf",
+                            "./assets/fonts/PPNeueMontreal-Thin.otf"
+                        ]
+                    }
+                }
+            ],
+            "expo-web-browser",
+            "expo-video"
+        ],
+        "experiments": {
+            "typedRoutes": true
         }
-      ]
-    ],
-    "experiments": {
-      "typedRoutes": true
     }
-  }
 }
