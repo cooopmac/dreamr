@@ -40,7 +40,7 @@ export default function Landing() {
     }));
 
     const handleCTAPress = () => {
-        router.push("/signup");
+        router.push("/(tabs)/home");
     };
 
     return (
@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
     },
     subtitle: {
         fontFamily: "PPNeueMontreal-Medium",
-        fontSize: 18,
+        fontSize: 20,
         color: "#F5F5F4",
         textAlign: "center",
         marginBottom: 8,
