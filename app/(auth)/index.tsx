@@ -40,7 +40,7 @@ export default function Landing() {
     }));
 
     const handleCTAPress = () => {
-        router.push("/(tabs)/home");
+        router.push("/(tabs)/dreams");
     };
 
     return (
@@ -119,19 +119,9 @@ export default function Landing() {
                     <Animated.Text style={[styles.title, animatedStyle]}>
                         dreamr.
                     </Animated.Text>
-
                     <Animated.Text style={[styles.subtitle, animatedStyle]}>
-                        Speak your dreams into reality
+                        speak your dreams into reality.
                     </Animated.Text>
-
-                    <Animated.View
-                        style={[styles.taglineContainer, animatedStyle]}
-                    >
-                        <Text style={styles.tagline}>
-                            Transform thoughts into words,{"\n"}words into
-                            dreams,{"\n"}dreams into reality.
-                        </Text>
-                    </Animated.View>
                 </View>
 
                 {/* Bottom Section */}
@@ -191,24 +181,25 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     title: {
-        fontFamily: "Borel-Regular",
-        fontSize: 52,
+        fontFamily: "Outfit-Bold",
+        fontSize: 54,
         color: "#FFFCF5",
         textAlign: "center",
-        marginBottom: -10,
-        letterSpacing: 1,
-        textShadowColor: "rgba(0, 0, 0, 0.7)",
+        marginTop: 30,
+        marginBottom: -5,
+        letterSpacing: -1,
+        textShadowColor: "rgba(0, 0, 0, 0.8)",
         textShadowOffset: { width: 0, height: 2 },
         textShadowRadius: 8,
     },
     subtitle: {
-        fontFamily: "PPNeueMontreal-Medium",
+        fontFamily: "Outfit-Medium",
         fontSize: 20,
         color: "#F5F5F4",
         textAlign: "center",
-        marginBottom: 8,
-        letterSpacing: 0.5,
-        textShadowColor: "rgba(0, 0, 0, 0.5)",
+        letterSpacing: -0.5,
+        marginBottom: 5,
+        textShadowColor: "rgba(0, 0, 0, 0.7)",
         textShadowOffset: { width: 0, height: 1 },
         textShadowRadius: 4,
     },
@@ -222,7 +213,7 @@ const styles = StyleSheet.create({
         textAlign: "center",
         lineHeight: 20,
         letterSpacing: 0.3,
-        textShadowColor: "rgba(0, 0, 0, 0.3)",
+        textShadowColor: "rgba(0, 0, 0, 0.5)",
         textShadowOffset: { width: 0, height: 1 },
         textShadowRadius: 3,
     },
@@ -234,10 +225,10 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     ctaButton: {
-        paddingHorizontal: 20,
+        paddingHorizontal: 25,
         paddingVertical: 12,
         borderRadius: 25,
-        backgroundColor: "rgba(255, 255, 255, 0.05)",
+        backgroundColor: "rgba(255, 255, 255, 0.1)",
         borderWidth: 1,
         borderColor: "rgba(255, 255, 255, 0.1)",
     },
@@ -247,11 +238,10 @@ const styles = StyleSheet.create({
         transform: [{ scale: 0.98 }],
     },
     ctaText: {
-        fontFamily: "PPNeueMontreal-Italic",
-        fontSize: 15,
+        fontFamily: "Outfit-Medium",
         color: "#D6D3D1",
         textAlign: "center",
-        letterSpacing: 0.5,
+        letterSpacing: -0.5,
         textShadowColor: "rgba(0, 0, 0, 0.3)",
         textShadowOffset: { width: 0, height: 1 },
         textShadowRadius: 3,

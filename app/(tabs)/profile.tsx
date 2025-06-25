@@ -2,20 +2,20 @@ import { LinearGradient } from "expo-linear-gradient";
 import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function Dreams() {
+export default function Profile() {
     return (
         <View style={styles.container}>
             {/* Subtle gradient background */}
             <LinearGradient
-                colors={["#1C1917", "#1A1715", "#1C1917"]}
+                colors={["#FEFEFE", "#F9F9F9", "#FEFEFE"]}
                 style={styles.backgroundGradient}
             />
 
             <SafeAreaView style={styles.contentContainer}>
                 <View style={styles.content}>
-                    <Text style={styles.title}>dreams</Text>
+                    <Text style={styles.title}>profile</Text>
                     <Text style={styles.subtitle}>
-                        your recorded dreams appear here
+                        manage your account and preferences
                     </Text>
                 </View>
             </SafeAreaView>
@@ -26,7 +26,7 @@ export default function Dreams() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#1C1917",
+        backgroundColor: "#FEFEFE",
     },
     backgroundGradient: {
         position: "absolute",
@@ -48,22 +48,19 @@ const styles = StyleSheet.create({
     title: {
         fontFamily: "Outfit-Bold",
         fontSize: 36,
-        color: "#FFFCF5",
+        color: "#1C1917",
         textAlign: "center",
         letterSpacing: -1,
-        textShadowColor: "rgba(0, 0, 0, 0.8)",
-        textShadowOffset: { width: 0, height: 2 },
-        textShadowRadius: 8,
+        textShadowColor: "rgba(255, 255, 255, 0.8)",
+        textShadowOffset: { width: 0, height: 1 },
+        textShadowRadius: 2,
         marginBottom: 8,
     },
     subtitle: {
         fontFamily: "Outfit-Medium",
         fontSize: 16,
-        color: "#E7E5E4",
+        color: "#6B7280",
         textAlign: "center",
         letterSpacing: -0.3,
-        textShadowColor: "rgba(0, 0, 0, 0.7)",
-        textShadowOffset: { width: 0, height: 1 },
-        textShadowRadius: 4,
     },
 });

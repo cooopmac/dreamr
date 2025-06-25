@@ -7,43 +7,55 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0FAEC9B0672942C5A4CE89E0 /* PPNeueMontreal-Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = D99A99C2BC5240509F08C5D5 /* PPNeueMontreal-Italic.otf */; };
+		06DE0DA95A934F4EBF800DA1 /* PPNeueMontreal-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 09D6CC436F9C4254B8F81D23 /* PPNeueMontreal-Bold.otf */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		19637B6A331042F3B2441EAF /* PPNeueMontreal-SemiBolditalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1A5E5AB25B1B40BCA8B8FE79 /* PPNeueMontreal-SemiBolditalic.otf */; };
-		29971A42BA9B721A9132165A /* libPods-dreamr.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE381F0A7B56EE5A3C8AF0C0 /* libPods-dreamr.a */; };
+		1806F769117543A98DB048F7 /* Outfit-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 368848DA78BE40EB99EF6E5B /* Outfit-ExtraBold.ttf */; };
+		1FA937B243AE46A7FCA4A771 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD833090190BD4BF93F7374 /* ExpoModulesProvider.swift */; };
+		2414B8B3AE1E4C5B8A2BE492 /* Borel-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4300A6AF035843509A12CBFF /* Borel-Regular.ttf */; };
+		2D2464209D84499CAA962BF2 /* PPNeueMontreal-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = C7282189A6B449C084034C62 /* PPNeueMontreal-Thin.otf */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
-		5CFACAD53E204CE5935F3A3C /* PPNeueMontreal-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = F39C287256D044F3A7FF2F61 /* PPNeueMontreal-Bold.otf */; };
-		6908060097F1233683CBE835 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3240C5C290DCB99D1266BC /* ExpoModulesProvider.swift */; };
-		6D0B46364AD647D99C00F45C /* Borel-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C509CBEA9B9C426A824BFED6 /* Borel-Regular.ttf */; };
-		9139E1F83F384C87B8CAEFB6 /* PPNeueMontreal-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = D3A2031732F740488BAE7B11 /* PPNeueMontreal-Thin.otf */; };
+		642DB5F947AB42B181EF2147 /* Outfit-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 81ED95B640FC456582AB4EC3 /* Outfit-Black.ttf */; };
+		67B895DC3F524B4AB647FFCE /* Outfit-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A637B87036124A15A1C7CFA4 /* Outfit-Bold.ttf */; };
+		7A5636151871E5BF34FF9D05 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 23F1979A86459C5ABBA72070 /* PrivacyInfo.xcprivacy */; };
+		7DD4E2D3AC8D4D35B3C6F8CC /* Outfit-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F31F60495934F45A6498D20 /* Outfit-Regular.ttf */; };
+		9885FA8BAA384D4096691644 /* PPNeueMontreal-SemiBolditalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 699A590A1C784926AEC7F179 /* PPNeueMontreal-SemiBolditalic.otf */; };
+		B156BFA627694FCBAC731BF0 /* PPNeueMontreal-Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = A49A92EE2BFE49239CAD62E6 /* PPNeueMontreal-Italic.otf */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
-		C4BC2E6137244CE4974F5958 /* PPNeueMontreal-Book.otf in Resources */ = {isa = PBXBuildFile; fileRef = EA4AD08964904D75A12F5913 /* PPNeueMontreal-Book.otf */; };
-		CB244E55CB8044B884C5BE32 /* PPNeueMontreal-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 367FB5E15529483BA5CE67BB /* PPNeueMontreal-Medium.otf */; };
-		EF98043A236AA142B9DEAC45 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 26B3639A7915A0D6DE432E2D /* PrivacyInfo.xcprivacy */; };
+		C035F2657C0AE39B163D087D /* libPods-dreamr.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 16CDB16EB9A9B8BEEB11AD97 /* libPods-dreamr.a */; };
+		CAB9435A02274C148BA77C3F /* Outfit-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B324CFAA4BA8445BBB7FA00F /* Outfit-SemiBold.ttf */; };
+		D10A8E4081504B289DDA68D3 /* PPNeueMontreal-Book.otf in Resources */ = {isa = PBXBuildFile; fileRef = 60824749A40F454AB2852E8C /* PPNeueMontreal-Book.otf */; };
+		DC231016A2404E7E8EECDBDC /* Outfit-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AB36368456944FF0A9F53853 /* Outfit-Medium.ttf */; };
+		DDD62A14BDFB4AC39151C104 /* PPNeueMontreal-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = F803B50BDCF245D4903DB8F5 /* PPNeueMontreal-Medium.otf */; };
 		F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11748412D0307B40044C1D9 /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0167B343C6FA06DE7298D91A /* Pods-dreamr.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dreamr.debug.xcconfig"; path = "Target Support Files/Pods-dreamr/Pods-dreamr.debug.xcconfig"; sourceTree = "<group>"; };
+		09D6CC436F9C4254B8F81D23 /* PPNeueMontreal-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PPNeueMontreal-Bold.otf"; path = "../assets/fonts/PPNeueMontreal-Bold.otf"; sourceTree = "<group>"; };
+		0CD833090190BD4BF93F7374 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-dreamr/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		0F31F60495934F45A6498D20 /* Outfit-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Outfit-Regular.ttf"; path = "../assets/fonts/Outfit-Regular.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* dreamr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = dreamr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = dreamr/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = dreamr/Info.plist; sourceTree = "<group>"; };
-		1A5E5AB25B1B40BCA8B8FE79 /* PPNeueMontreal-SemiBolditalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PPNeueMontreal-SemiBolditalic.otf"; path = "../assets/fonts/PPNeueMontreal-SemiBolditalic.otf"; sourceTree = "<group>"; };
-		1B5B7B8FCE325EC91189ECF1 /* Pods-dreamr.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dreamr.release.xcconfig"; path = "Target Support Files/Pods-dreamr/Pods-dreamr.release.xcconfig"; sourceTree = "<group>"; };
-		26B3639A7915A0D6DE432E2D /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = dreamr/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		367FB5E15529483BA5CE67BB /* PPNeueMontreal-Medium.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PPNeueMontreal-Medium.otf"; path = "../assets/fonts/PPNeueMontreal-Medium.otf"; sourceTree = "<group>"; };
-		4C76002208E4FCAD2B6BABEE /* Pods-dreamr.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dreamr.debug.xcconfig"; path = "Target Support Files/Pods-dreamr/Pods-dreamr.debug.xcconfig"; sourceTree = "<group>"; };
-		7C3240C5C290DCB99D1266BC /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-dreamr/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		16CDB16EB9A9B8BEEB11AD97 /* libPods-dreamr.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-dreamr.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		23F1979A86459C5ABBA72070 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = dreamr/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		368848DA78BE40EB99EF6E5B /* Outfit-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Outfit-ExtraBold.ttf"; path = "../assets/fonts/Outfit-ExtraBold.ttf"; sourceTree = "<group>"; };
+		4300A6AF035843509A12CBFF /* Borel-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Borel-Regular.ttf"; path = "../assets/fonts/Borel-Regular.ttf"; sourceTree = "<group>"; };
+		60824749A40F454AB2852E8C /* PPNeueMontreal-Book.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PPNeueMontreal-Book.otf"; path = "../assets/fonts/PPNeueMontreal-Book.otf"; sourceTree = "<group>"; };
+		699A590A1C784926AEC7F179 /* PPNeueMontreal-SemiBolditalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PPNeueMontreal-SemiBolditalic.otf"; path = "../assets/fonts/PPNeueMontreal-SemiBolditalic.otf"; sourceTree = "<group>"; };
+		81ED95B640FC456582AB4EC3 /* Outfit-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Outfit-Black.ttf"; path = "../assets/fonts/Outfit-Black.ttf"; sourceTree = "<group>"; };
+		A07A984ADCDF129338C04A5F /* Pods-dreamr.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-dreamr.release.xcconfig"; path = "Target Support Files/Pods-dreamr/Pods-dreamr.release.xcconfig"; sourceTree = "<group>"; };
+		A49A92EE2BFE49239CAD62E6 /* PPNeueMontreal-Italic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PPNeueMontreal-Italic.otf"; path = "../assets/fonts/PPNeueMontreal-Italic.otf"; sourceTree = "<group>"; };
+		A637B87036124A15A1C7CFA4 /* Outfit-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Outfit-Bold.ttf"; path = "../assets/fonts/Outfit-Bold.ttf"; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = dreamr/SplashScreen.storyboard; sourceTree = "<group>"; };
+		AB36368456944FF0A9F53853 /* Outfit-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Outfit-Medium.ttf"; path = "../assets/fonts/Outfit-Medium.ttf"; sourceTree = "<group>"; };
+		B324CFAA4BA8445BBB7FA00F /* Outfit-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Outfit-SemiBold.ttf"; path = "../assets/fonts/Outfit-SemiBold.ttf"; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
-		C509CBEA9B9C426A824BFED6 /* Borel-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Borel-Regular.ttf"; path = "../assets/fonts/Borel-Regular.ttf"; sourceTree = "<group>"; };
-		D3A2031732F740488BAE7B11 /* PPNeueMontreal-Thin.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PPNeueMontreal-Thin.otf"; path = "../assets/fonts/PPNeueMontreal-Thin.otf"; sourceTree = "<group>"; };
-		D99A99C2BC5240509F08C5D5 /* PPNeueMontreal-Italic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PPNeueMontreal-Italic.otf"; path = "../assets/fonts/PPNeueMontreal-Italic.otf"; sourceTree = "<group>"; };
-		EA4AD08964904D75A12F5913 /* PPNeueMontreal-Book.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PPNeueMontreal-Book.otf"; path = "../assets/fonts/PPNeueMontreal-Book.otf"; sourceTree = "<group>"; };
+		C7282189A6B449C084034C62 /* PPNeueMontreal-Thin.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PPNeueMontreal-Thin.otf"; path = "../assets/fonts/PPNeueMontreal-Thin.otf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		EE381F0A7B56EE5A3C8AF0C0 /* libPods-dreamr.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-dreamr.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = dreamr/AppDelegate.swift; sourceTree = "<group>"; };
 		F11748442D0722820044C1D9 /* dreamr-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "dreamr-Bridging-Header.h"; path = "dreamr/dreamr-Bridging-Header.h"; sourceTree = "<group>"; };
-		F39C287256D044F3A7FF2F61 /* PPNeueMontreal-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PPNeueMontreal-Bold.otf"; path = "../assets/fonts/PPNeueMontreal-Bold.otf"; sourceTree = "<group>"; };
+		F803B50BDCF245D4903DB8F5 /* PPNeueMontreal-Medium.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "PPNeueMontreal-Medium.otf"; path = "../assets/fonts/PPNeueMontreal-Medium.otf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,13 +63,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				29971A42BA9B721A9132165A /* libPods-dreamr.a in Frameworks */,
+				C035F2657C0AE39B163D087D /* libPods-dreamr.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		034CA20130A641FE8F0208DE /* ExpoModulesProviders */ = {
+			isa = PBXGroup;
+			children = (
+				2E4152286AD42AC72A5F0B63 /* dreamr */,
+			);
+			name = ExpoModulesProviders;
+			sourceTree = "<group>";
+		};
 		13B07FAE1A68108700A75B9A /* dreamr */ = {
 			isa = PBXGroup;
 			children = (
@@ -67,7 +87,7 @@
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
-				26B3639A7915A0D6DE432E2D /* PrivacyInfo.xcprivacy */,
+				23F1979A86459C5ABBA72070 /* PrivacyInfo.xcprivacy */,
 			);
 			name = dreamr;
 			sourceTree = "<group>";
@@ -76,40 +96,27 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				EE381F0A7B56EE5A3C8AF0C0 /* libPods-dreamr.a */,
+				16CDB16EB9A9B8BEEB11AD97 /* libPods-dreamr.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		37CE5E826AA6E19241018D1E /* ExpoModulesProviders */ = {
+		2E4152286AD42AC72A5F0B63 /* dreamr */ = {
 			isa = PBXGroup;
 			children = (
-				5583C08D68B98E202538E514 /* dreamr */,
-			);
-			name = ExpoModulesProviders;
-			sourceTree = "<group>";
-		};
-		5583C08D68B98E202538E514 /* dreamr */ = {
-			isa = PBXGroup;
-			children = (
-				7C3240C5C290DCB99D1266BC /* ExpoModulesProvider.swift */,
+				0CD833090190BD4BF93F7374 /* ExpoModulesProvider.swift */,
 			);
 			name = dreamr;
 			sourceTree = "<group>";
 		};
-		6BD3774F91AB49409E1A9B11 /* Resources */ = {
+		3AB070560FF0D921159EF586 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				C509CBEA9B9C426A824BFED6 /* Borel-Regular.ttf */,
-				EA4AD08964904D75A12F5913 /* PPNeueMontreal-Book.otf */,
-				F39C287256D044F3A7FF2F61 /* PPNeueMontreal-Bold.otf */,
-				D99A99C2BC5240509F08C5D5 /* PPNeueMontreal-Italic.otf */,
-				367FB5E15529483BA5CE67BB /* PPNeueMontreal-Medium.otf */,
-				1A5E5AB25B1B40BCA8B8FE79 /* PPNeueMontreal-SemiBolditalic.otf */,
-				D3A2031732F740488BAE7B11 /* PPNeueMontreal-Thin.otf */,
+				0167B343C6FA06DE7298D91A /* Pods-dreamr.debug.xcconfig */,
+				A07A984ADCDF129338C04A5F /* Pods-dreamr.release.xcconfig */,
 			);
-			name = Resources;
-			path = "";
+			name = Pods;
+			path = Pods;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -126,9 +133,9 @@
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
-				FD762480E5B0AC96045F958E /* Pods */,
-				37CE5E826AA6E19241018D1E /* ExpoModulesProviders */,
-				6BD3774F91AB49409E1A9B11 /* Resources */,
+				D837015F5F6F4072A0E8B6F3 /* Resources */,
+				3AB070560FF0D921159EF586 /* Pods */,
+				034CA20130A641FE8F0208DE /* ExpoModulesProviders */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -152,14 +159,25 @@
 			path = dreamr/Supporting;
 			sourceTree = "<group>";
 		};
-		FD762480E5B0AC96045F958E /* Pods */ = {
+		D837015F5F6F4072A0E8B6F3 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				4C76002208E4FCAD2B6BABEE /* Pods-dreamr.debug.xcconfig */,
-				1B5B7B8FCE325EC91189ECF1 /* Pods-dreamr.release.xcconfig */,
+				4300A6AF035843509A12CBFF /* Borel-Regular.ttf */,
+				60824749A40F454AB2852E8C /* PPNeueMontreal-Book.otf */,
+				09D6CC436F9C4254B8F81D23 /* PPNeueMontreal-Bold.otf */,
+				A49A92EE2BFE49239CAD62E6 /* PPNeueMontreal-Italic.otf */,
+				F803B50BDCF245D4903DB8F5 /* PPNeueMontreal-Medium.otf */,
+				699A590A1C784926AEC7F179 /* PPNeueMontreal-SemiBolditalic.otf */,
+				C7282189A6B449C084034C62 /* PPNeueMontreal-Thin.otf */,
+				0F31F60495934F45A6498D20 /* Outfit-Regular.ttf */,
+				AB36368456944FF0A9F53853 /* Outfit-Medium.ttf */,
+				B324CFAA4BA8445BBB7FA00F /* Outfit-SemiBold.ttf */,
+				A637B87036124A15A1C7CFA4 /* Outfit-Bold.ttf */,
+				368848DA78BE40EB99EF6E5B /* Outfit-ExtraBold.ttf */,
+				81ED95B640FC456582AB4EC3 /* Outfit-Black.ttf */,
 			);
-			name = Pods;
-			path = Pods;
+			name = Resources;
+			path = "";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -170,13 +188,13 @@
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "dreamr" */;
 			buildPhases = (
 				08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */,
-				23956F05BC67C2AB2B494420 /* [Expo] Configure project */,
+				549D287BF6B0C092AD9C750E /* [Expo] Configure project */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */,
-				05B0542C4B552820ADC74954 /* [CP] Embed Pods Frameworks */,
+				B67E4E1F83337A568BF28857 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -197,6 +215,8 @@
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
 						LastSwiftMigration = 1250;
+						DevelopmentTeam = "DUR3AF6B87";
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -226,14 +246,20 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
-				EF98043A236AA142B9DEAC45 /* PrivacyInfo.xcprivacy in Resources */,
-				6D0B46364AD647D99C00F45C /* Borel-Regular.ttf in Resources */,
-				C4BC2E6137244CE4974F5958 /* PPNeueMontreal-Book.otf in Resources */,
-				5CFACAD53E204CE5935F3A3C /* PPNeueMontreal-Bold.otf in Resources */,
-				0FAEC9B0672942C5A4CE89E0 /* PPNeueMontreal-Italic.otf in Resources */,
-				CB244E55CB8044B884C5BE32 /* PPNeueMontreal-Medium.otf in Resources */,
-				19637B6A331042F3B2441EAF /* PPNeueMontreal-SemiBolditalic.otf in Resources */,
-				9139E1F83F384C87B8CAEFB6 /* PPNeueMontreal-Thin.otf in Resources */,
+				2414B8B3AE1E4C5B8A2BE492 /* Borel-Regular.ttf in Resources */,
+				D10A8E4081504B289DDA68D3 /* PPNeueMontreal-Book.otf in Resources */,
+				06DE0DA95A934F4EBF800DA1 /* PPNeueMontreal-Bold.otf in Resources */,
+				B156BFA627694FCBAC731BF0 /* PPNeueMontreal-Italic.otf in Resources */,
+				DDD62A14BDFB4AC39151C104 /* PPNeueMontreal-Medium.otf in Resources */,
+				9885FA8BAA384D4096691644 /* PPNeueMontreal-SemiBolditalic.otf in Resources */,
+				2D2464209D84499CAA962BF2 /* PPNeueMontreal-Thin.otf in Resources */,
+				7DD4E2D3AC8D4D35B3C6F8CC /* Outfit-Regular.ttf in Resources */,
+				DC231016A2404E7E8EECDBDC /* Outfit-Medium.ttf in Resources */,
+				CAB9435A02274C148BA77C3F /* Outfit-SemiBold.ttf in Resources */,
+				67B895DC3F524B4AB647FFCE /* Outfit-Bold.ttf in Resources */,
+				1806F769117543A98DB048F7 /* Outfit-ExtraBold.ttf in Resources */,
+				642DB5F947AB42B181EF2147 /* Outfit-Black.ttf in Resources */,
+				7A5636151871E5BF34FF9D05 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,24 +280,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if [[ -f \"$PODS_ROOT/../.xcode.env\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env\"\nfi\nif [[ -f \"$PODS_ROOT/../.xcode.env.local\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env.local\"\nfi\n\n# The project root by default is one level up from the ios directory\nexport PROJECT_ROOT=\"$PROJECT_DIR\"/..\n\nif [[ \"$CONFIGURATION\" = *Debug* ]]; then\n  export SKIP_BUNDLING=1\nfi\nif [[ -z \"$ENTRY_FILE\" ]]; then\n  # Set the entry JS file using the bundler's entry resolution.\n  export ENTRY_FILE=\"$(\"$NODE_BINARY\" -e \"require('expo/scripts/resolveAppEntry')\" \"$PROJECT_ROOT\" ios absolute | tail -n 1)\"\nfi\n\nif [[ -z \"$CLI_PATH\" ]]; then\n  # Use Expo CLI\n  export CLI_PATH=\"$(\"$NODE_BINARY\" --print \"require.resolve('@expo/cli', { paths: [require.resolve('expo/package.json')] })\")\"\nfi\nif [[ -z \"$BUNDLE_COMMAND\" ]]; then\n  # Default Expo CLI command for bundling\n  export BUNDLE_COMMAND=\"export:embed\"\nfi\n\n# Source .xcode.env.updates if it exists to allow\n# SKIP_BUNDLING to be unset if needed\nif [[ -f \"$PODS_ROOT/../.xcode.env.updates\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env.updates\"\nfi\n# Source local changes to allow overrides\n# if needed\nif [[ -f \"$PODS_ROOT/../.xcode.env.local\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env.local\"\nfi\n\n`\"$NODE_BINARY\" --print \"require('path').dirname(require.resolve('react-native/package.json')) + '/scripts/react-native-xcode.sh'\"`\n\n";
-		};
-		05B0542C4B552820ADC74954 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-dreamr/Pods-dreamr-frameworks.sh",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-dreamr/Pods-dreamr-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
 		};
 		08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -295,7 +303,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		23956F05BC67C2AB2B494420 /* [Expo] Configure project */ = {
+		549D287BF6B0C092AD9C750E /* [Expo] Configure project */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
@@ -356,6 +364,24 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-dreamr/Pods-dreamr-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		B67E4E1F83337A568BF28857 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-dreamr/Pods-dreamr-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-dreamr/Pods-dreamr-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -364,7 +390,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */,
-				6908060097F1233683CBE835 /* ExpoModulesProvider.swift in Sources */,
+				1FA937B243AE46A7FCA4A771 /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -373,7 +399,7 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4C76002208E4FCAD2B6BABEE /* Pods-dreamr.debug.xcconfig */;
+			baseConfigurationReference = 0167B343C6FA06DE7298D91A /* Pods-dreamr.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -404,12 +430,15 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
+				DEVELOPMENT_TEAM = "DUR3AF6B87";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 			};
 			name = Debug;
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1B5B7B8FCE325EC91189ECF1 /* Pods-dreamr.release.xcconfig */;
+			baseConfigurationReference = A07A984ADCDF129338C04A5F /* Pods-dreamr.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -434,6 +463,9 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
+				DEVELOPMENT_TEAM = "DUR3AF6B87";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 			};
 			name = Release;
 		};

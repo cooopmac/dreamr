@@ -52,7 +52,9 @@
       <true/>
     </dict>
     <key>NSMicrophoneUsageDescription</key>
-    <string>Allow $(PRODUCT_NAME) to access your microphone</string>
+    <string>Allow $(PRODUCT_NAME) to use the microphone for dream recording.</string>
+    <key>NSSpeechRecognitionUsageDescription</key>
+    <string>Allow $(PRODUCT_NAME) to use speech recognition for dream transcription.</string>
     <key>NSUserActivityTypes</key>
     <array>
       <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
@@ -66,6 +68,12 @@
       <string>PPNeueMontreal-Medium.otf</string>
       <string>PPNeueMontreal-SemiBolditalic.otf</string>
       <string>PPNeueMontreal-Thin.otf</string>
+      <string>Outfit-Regular.ttf</string>
+      <string>Outfit-Medium.ttf</string>
+      <string>Outfit-SemiBold.ttf</string>
+      <string>Outfit-Bold.ttf</string>
+      <string>Outfit-ExtraBold.ttf</string>
+      <string>Outfit-Black.ttf</string>
     </array>
     <key>UILaunchStoryboardName</key>
     <string>SplashScreen</string>

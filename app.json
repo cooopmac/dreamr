@@ -10,7 +10,11 @@
         "newArchEnabled": true,
         "ios": {
             "supportsTablet": true,
-            "bundleIdentifier": "com.anonymous.dreamr"
+            "bundleIdentifier": "com.anonymous.dreamr",
+            "infoPlist": {
+                "NSSpeechRecognitionUsageDescription": "This app uses speech recognition to transcribe your dreams.",
+                "NSMicrophoneUsageDescription": "This app needs access to your microphone to record your dreams."
+            }
         },
         "android": {
             "adaptiveIcon": {
@@ -46,7 +50,13 @@
                         "./assets/fonts/PPNeueMontreal-Italic.otf",
                         "./assets/fonts/PPNeueMontreal-Medium.otf",
                         "./assets/fonts/PPNeueMontreal-SemiBolditalic.otf",
-                        "./assets/fonts/PPNeueMontreal-Thin.otf"
+                        "./assets/fonts/PPNeueMontreal-Thin.otf",
+                        "./assets/fonts/Outfit-Regular.ttf",
+                        "./assets/fonts/Outfit-Medium.ttf",
+                        "./assets/fonts/Outfit-SemiBold.ttf",
+                        "./assets/fonts/Outfit-Bold.ttf",
+                        "./assets/fonts/Outfit-ExtraBold.ttf",
+                        "./assets/fonts/Outfit-Black.ttf"
                     ],
                     "ios": {
                         "fonts": [
@@ -56,13 +66,26 @@
                             "./assets/fonts/PPNeueMontreal-Italic.otf",
                             "./assets/fonts/PPNeueMontreal-Medium.otf",
                             "./assets/fonts/PPNeueMontreal-SemiBolditalic.otf",
-                            "./assets/fonts/PPNeueMontreal-Thin.otf"
+                            "./assets/fonts/PPNeueMontreal-Thin.otf",
+                            "./assets/fonts/Outfit-Regular.ttf",
+                            "./assets/fonts/Outfit-Medium.ttf",
+                            "./assets/fonts/Outfit-SemiBold.ttf",
+                            "./assets/fonts/Outfit-Bold.ttf",
+                            "./assets/fonts/Outfit-ExtraBold.ttf",
+                            "./assets/fonts/Outfit-Black.ttf"
                         ]
                     }
                 }
             ],
             "expo-web-browser",
-            "expo-video"
+            "expo-video",
+            [
+                "expo-speech-recognition",
+                {
+                    "microphonePermission": "Allow $(PRODUCT_NAME) to use the microphone for dream recording.",
+                    "speechRecognitionPermission": "Allow $(PRODUCT_NAME) to use speech recognition for dream transcription."
+                }
+            ]
         ],
         "experiments": {
             "typedRoutes": true
