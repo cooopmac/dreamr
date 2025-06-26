@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { ResizeMode, Video } from "expo-av";
 import { LinearGradient } from "expo-linear-gradient";
-import React, { memo, useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Keyboard,
     KeyboardAvoidingView,
@@ -21,7 +21,6 @@ import Animated, {
     useAnimatedStyle,
     useSharedValue,
     withRepeat,
-    withSpring,
     withTiming,
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -29,207 +28,29 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import VoiceRecorder from "../../utils/voiceRecording";
 
 // Constants
-const NAVBAR_HEIGHT = 100; // Adjust based on your navbar
+const NAVBAR_HEIGHT = 100;
 const VIDEO_GENERATION_TIME = 6000; // 6 seconds
 const PLACEHOLDER_VIDEO = require("../../assets/videos/video_4.mp4");
 
-// Animated components
-const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
-
-// Sub-components
-const EmptyState = memo(() => (
-    <Animated.View
-        entering={FadeIn.duration(800).delay(200)}
-        style={styles.emptyState}
-    >
-        <Ionicons name="videocam-outline" size={64} color="#8B8B8B" />
-        <Text style={styles.emptyStateText}>
-            Record your dream to see its visual representation
-        </Text>
-    </Animated.View>
-));
-
-const LoadingIndicator = memo(({ isVisible }: { isVisible: boolean }) => {
-    const rotation = useSharedValue(0);
-
-    useEffect(() => {
-        if (isVisible) {
-            rotation.value = withRepeat(
-                withTiming(360, { duration: 2000, easing: Easing.linear }),
-                -1
-            );
-        }
-    }, [isVisible]);
-
-    const animatedStyle = useAnimatedStyle(() => ({
-        transform: [{ rotate: `${rotation.value}deg` }],
-    }));
-
-    if (!isVisible) return null;
-
-    return (
-        <Animated.View
-            entering={FadeIn}
-            exiting={FadeOut}
-            style={styles.loadingOverlay}
-        >
-            <View style={styles.loadingContainer}>
-                <Animated.View style={animatedStyle}>
-                    <Ionicons name="film" size={32} color="#FFFFFF" />
-                </Animated.View>
-                <Text style={styles.loadingText}>
-                    Creating your dream visualization...
-                </Text>
-            </View>
-        </Animated.View>
-    );
-});
-
-const VideoPlayer = memo(
-    ({ uri, description }: { uri: any; description: string }) => (
-        <Animated.View
-            entering={FadeIn.duration(600)}
-            style={styles.videoContainer}
-        >
-            <Video
-                source={uri}
-                style={styles.video}
-                resizeMode={ResizeMode.COVER}
-                shouldPlay
-                isLooping
-                isMuted={false}
-            />
-
-            {/* Gradient overlays */}
-            <LinearGradient
-                colors={["rgba(28, 25, 23, 0.1)", "rgba(28, 25, 23, 0.2)"]}
-                style={styles.videoGradientTop}
-                pointerEvents="none"
-            />
-            <LinearGradient
-                colors={["transparent", "rgba(28, 25, 23, 0.8)"]}
-                style={styles.videoGradientBottom}
-                pointerEvents="none"
-            />
-
-            {/* Video info */}
-            <View style={styles.videoInfo}>
-                <Text style={styles.videoTitle}>Your Dream Visualization</Text>
-                <Text style={styles.videoDescription} numberOfLines={2}>
-                    "{description.substring(0, 100)}
-                    {description.length > 100 ? "..." : ""}"
-                </Text>
-                <Pressable
-                    style={({ pressed }) => [
-                        styles.insightsButton,
-                        pressed && styles.insightsButtonPressed,
-                    ]}
-                >
-                    <Ionicons name="sparkles" size={16} color="#FFFFFF" />
-                    <Text style={styles.insightsButtonText}>
-                        View Dream Insights
-                    </Text>
-                </Pressable>
-            </View>
-        </Animated.View>
-    )
-);
-
-const RecordButton = memo(
-    ({
-        isRecording,
-        isDisabled,
-        onPress,
-    }: {
-        isRecording: boolean;
-        isDisabled: boolean;
-        onPress: () => void;
-    }) => {
-        const scale = useSharedValue(1);
-        const pulseScale = useSharedValue(1);
-
-        useEffect(() => {
-            if (isRecording) {
-                pulseScale.value = withRepeat(
-                    withSpring(1.2, { damping: 2 }),
-                    -1,
-                    true
-                );
-            } else {
-                pulseScale.value = withSpring(1);
-            }
-        }, [isRecording]);
-
-        const handlePress = () => {
-            scale.value = withSpring(0.9, {}, () => {
-                scale.value = withSpring(1);
-            });
-            onPress();
-        };
-
-        const buttonStyle = useAnimatedStyle(() => ({
-            transform: [{ scale: scale.value }],
-        }));
-
-        const pulseStyle = useAnimatedStyle(() => ({
-            transform: [{ scale: pulseScale.value }],
-            opacity: isRecording ? 0.3 : 0,
-        }));
-
-        return (
-            <Pressable onPress={handlePress} disabled={isDisabled}>
-                <Animated.View
-                    style={[styles.recordButtonContainer, buttonStyle]}
-                >
-                    {isRecording && (
-                        <Animated.View
-                            style={[styles.recordButtonPulse, pulseStyle]}
-                        />
-                    )}
-                    <View
-                        style={[
-                            styles.recordButton,
-                            isRecording && styles.recordButtonActive,
-                            isDisabled && styles.buttonDisabled,
-                        ]}
-                    >
-                        <Ionicons
-                            name={isRecording ? "stop" : "mic"}
-                            size={20}
-                            color={isRecording ? "#EF4444" : "#FFFFFF"}
-                        />
-                    </View>
-                </Animated.View>
-            </Pressable>
-        );
-    }
-);
-
-// Main component
 export default function Record() {
     const [isRecording, setIsRecording] = useState(false);
     const [transcribedText, setTranscribedText] = useState("");
     const [isGenerating, setIsGenerating] = useState(false);
     const [videoUri, setVideoUri] = useState<any>(null);
     const [keyboardHeight, setKeyboardHeight] = useState(0);
-    const [chatInputHeight, setChatInputHeight] = useState(56); // Default minimum height
+    const [chatInputHeight, setChatInputHeight] = useState(56);
 
     const insets = useSafeAreaInsets();
 
-    // Keyboard event listeners
+    // Keyboard listeners
     useEffect(() => {
         const keyboardWillShow = Keyboard.addListener(
             Platform.OS === "ios" ? "keyboardWillShow" : "keyboardDidShow",
-            (e) => {
-                setKeyboardHeight(e.endCoordinates.height);
-            }
+            (e) => setKeyboardHeight(e.endCoordinates.height)
         );
-
         const keyboardWillHide = Keyboard.addListener(
             Platform.OS === "ios" ? "keyboardWillHide" : "keyboardDidHide",
-            () => {
-                setKeyboardHeight(0);
-            }
+            () => setKeyboardHeight(0)
         );
 
         return () => {
@@ -238,33 +59,28 @@ export default function Record() {
         };
     }, []);
 
-    // Handlers
-    const handleRecordPress = useCallback(async () => {
-        console.log("🎯 Record button pressed, isRecording:", isRecording);
-
+    // Handle recording
+    const handleRecordPress = () => {
         if (!isRecording) {
-            // Reset state for new recording
             setVideoUri(null);
-            console.log("🧹 Clearing previous transcription...");
             setTranscribedText("");
-
-            // Small delay to ensure UI updates and text clearing completes before starting recording
-            setTimeout(() => {
-                console.log("▶️ Starting recording...");
-                setIsRecording(true);
-            }, 150);
+            setTimeout(() => setIsRecording(true), 150);
         } else {
-            console.log("⏹️ Stopping recording...");
             setIsRecording(false);
         }
-    }, [isRecording]);
+    };
 
-    const handleTranscriptionUpdate = useCallback((text: string) => {
-        console.log("📝 Transcription update received:", text);
+    const handleTranscriptionUpdate = (text: string) => {
         setTranscribedText(text);
-    }, []);
+    };
 
-    const generateVideo = useCallback(async () => {
+    const handleRecordingComplete = (recording: boolean) => {
+        if (!recording && transcribedText.trim()) {
+            generateVideo();
+        }
+    };
+
+    const generateVideo = async () => {
         if (!transcribedText.trim() || isGenerating) return;
 
         setIsGenerating(true);
@@ -281,41 +97,48 @@ export default function Record() {
         } finally {
             setIsGenerating(false);
         }
-    }, [transcribedText, isGenerating]);
+    };
 
-    const handleRecordingComplete = useCallback(
-        (recording: boolean) => {
-            if (!recording && transcribedText.trim()) {
-                generateVideo();
-            }
-        },
-        [transcribedText, generateVideo]
-    );
-
-    const handleSendPress = useCallback(() => {
+    const handleSendPress = () => {
         Keyboard.dismiss();
         generateVideo();
-    }, [generateVideo]);
+    };
 
-    // Calculate bottom position for chat input
+    // Calculate positions
     const chatBottomPosition =
         Math.max(insets.bottom, 16) +
         NAVBAR_HEIGHT +
         (keyboardHeight > 0 ? keyboardHeight - insets.bottom : 0);
+    const mainContentPaddingBottom = chatBottomPosition + chatInputHeight + 16;
 
-    // Calculate dynamic padding for main content based on actual chat input height
-    const mainContentPaddingBottom = chatBottomPosition + chatInputHeight + 16; // actual chat height + extra spacing
+    // Loading animation
+    const rotation = useSharedValue(0);
+    useEffect(() => {
+        if (isGenerating) {
+            rotation.value = withRepeat(
+                withTiming(360, { duration: 2000, easing: Easing.linear }),
+                -1,
+                false
+            );
+        } else {
+            rotation.value = 0;
+        }
+    }, [isGenerating]);
+
+    const loadingStyle = useAnimatedStyle(() => ({
+        transform: [{ rotate: `${rotation.value}deg` }],
+    }));
 
     return (
         <View style={styles.container}>
-            {/* Voice Recorder (hidden component) */}
+            {/* Voice Recorder */}
             <VoiceRecorder
                 isRecording={isRecording}
                 onTranscriptionUpdate={handleTranscriptionUpdate}
                 onRecordingStateChange={handleRecordingComplete}
             />
 
-            {/* Background gradient */}
+            {/* Background */}
             <LinearGradient
                 colors={["#1C1917", "#1A1715", "#1C1917"]}
                 style={styles.backgroundGradient}
@@ -328,7 +151,7 @@ export default function Record() {
             >
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                     <View style={{ flex: 1 }}>
-                        {/* Main content area */}
+                        {/* Main content */}
                         <View
                             style={[
                                 styles.mainContent,
@@ -336,20 +159,95 @@ export default function Record() {
                             ]}
                         >
                             {videoUri ? (
-                                <VideoPlayer
-                                    uri={videoUri}
-                                    description={transcribedText}
-                                />
+                                // Video Player
+                                <Animated.View
+                                    entering={FadeIn.duration(600)}
+                                    style={styles.videoContainer}
+                                >
+                                    <Video
+                                        source={videoUri}
+                                        style={styles.video}
+                                        resizeMode={ResizeMode.COVER}
+                                        shouldPlay
+                                        isLooping
+                                        isMuted={false}
+                                    />
+                                    <View style={styles.videoInfo}>
+                                        <Text style={styles.videoTitle}>
+                                            Your Dream Visualization
+                                        </Text>
+                                        <Text
+                                            style={styles.videoDescription}
+                                            numberOfLines={2}
+                                        >
+                                            "{transcribedText.substring(0, 100)}
+                                            {transcribedText.length > 100
+                                                ? "..."
+                                                : ""}
+                                            "
+                                        </Text>
+                                        <Pressable
+                                            style={styles.insightsButton}
+                                        >
+                                            <Ionicons
+                                                name="sparkles"
+                                                size={16}
+                                                color="#FFFFFF"
+                                            />
+                                            <Text
+                                                style={
+                                                    styles.insightsButtonText
+                                                }
+                                            >
+                                                View Dream Insights
+                                            </Text>
+                                        </Pressable>
+                                    </View>
+                                </Animated.View>
                             ) : (
-                                <EmptyState />
+                                // Empty State
+                                <Animated.View
+                                    entering={FadeIn.duration(800).delay(200)}
+                                    style={styles.emptyState}
+                                >
+                                    <Ionicons
+                                        name="videocam-outline"
+                                        size={64}
+                                        color="#8B8B8B"
+                                    />
+                                    <Text style={styles.emptyStateText}>
+                                        Record your dream to see its visual
+                                        representation
+                                    </Text>
+                                </Animated.View>
                             )}
 
-                            <LoadingIndicator isVisible={isGenerating} />
+                            {/* Loading Indicator */}
+                            {isGenerating && (
+                                <Animated.View
+                                    entering={FadeIn}
+                                    exiting={FadeOut}
+                                    style={styles.loadingOverlay}
+                                >
+                                    <View style={styles.loadingContainer}>
+                                        <Animated.View style={loadingStyle}>
+                                            <Ionicons
+                                                name="film"
+                                                size={32}
+                                                color="#FFFFFF"
+                                            />
+                                        </Animated.View>
+                                        <Text style={styles.loadingText}>
+                                            Creating your dream visualization...
+                                        </Text>
+                                    </View>
+                                </Animated.View>
+                            )}
                         </View>
                     </View>
                 </TouchableWithoutFeedback>
 
-                {/* Chat input */}
+                {/* Chat Input */}
                 <Animated.View
                     entering={FadeIn.delay(400)}
                     style={[
@@ -359,10 +257,9 @@ export default function Record() {
                 >
                     <View
                         style={styles.chatInputContainer}
-                        onLayout={(event) => {
-                            const { height } = event.nativeEvent.layout;
-                            setChatInputHeight(height);
-                        }}
+                        onLayout={(event) =>
+                            setChatInputHeight(event.nativeEvent.layout.height)
+                        }
                     >
                         <ScrollView
                             style={styles.textInputScrollView}
@@ -389,12 +286,25 @@ export default function Record() {
                         </ScrollView>
 
                         <View style={styles.chatActions}>
-                            <RecordButton
-                                isRecording={isRecording}
-                                isDisabled={isGenerating}
+                            {/* Record Button */}
+                            <Pressable
                                 onPress={handleRecordPress}
-                            />
+                                disabled={isGenerating}
+                                style={({ pressed }) => [
+                                    styles.recordButton,
+                                    isRecording && styles.recordButtonActive,
+                                    pressed && styles.buttonPressed,
+                                    isGenerating && styles.buttonDisabled,
+                                ]}
+                            >
+                                <Ionicons
+                                    name={isRecording ? "stop" : "mic"}
+                                    size={20}
+                                    color={isRecording ? "#EF4444" : "#FFFFFF"}
+                                />
+                            </Pressable>
 
+                            {/* Send Button */}
                             <Pressable
                                 onPress={handleSendPress}
                                 disabled={
@@ -402,18 +312,18 @@ export default function Record() {
                                 }
                                 style={({ pressed }) => [
                                     styles.sendButton,
+                                    pressed && styles.buttonPressed,
                                     (!transcribedText.trim() || isGenerating) &&
                                         styles.sendButtonDisabled,
-                                    pressed && styles.buttonPressed,
                                 ]}
                             >
                                 <Ionicons
                                     name="arrow-up"
                                     size={20}
                                     color={
-                                        !transcribedText.trim() || isGenerating
-                                            ? "#6B6B6B"
-                                            : "#FFFFFF"
+                                        transcribedText.trim() && !isGenerating
+                                            ? "#FFFFFF"
+                                            : "#666666"
                                     }
                                 />
                             </Pressable>
@@ -425,90 +335,17 @@ export default function Record() {
     );
 }
 
-// Design tokens
-const colors = {
-    background: "#1C1917",
-    backgroundSecondary: "#1A1715",
-    surface: "rgba(255, 255, 255, 0.08)",
-    surfaceHover: "rgba(255, 255, 255, 0.12)",
-    border: "rgba(255, 255, 255, 0.12)",
-    borderHover: "rgba(255, 255, 255, 0.2)",
-    text: "#FFFCF5",
-    textSecondary: "#E7E5E4",
-    textPlaceholder: "#8B8B8B",
-    accent: "#EF4444",
-    accentSurface: "rgba(239, 68, 68, 0.15)",
-    disabled: "rgba(255, 255, 255, 0.05)",
-};
-
-const spacing = {
-    xs: 4,
-    sm: 8,
-    md: 16,
-    lg: 24,
-    xl: 32,
-    xxl: 40,
-};
-
-const borderRadius = {
-    sm: 8,
-    md: 16,
-    lg: 24,
-    full: 9999,
-};
-
-const typography = {
-    title: {
-        fontFamily: "Outfit-Bold",
-        fontSize: 20,
-        lineHeight: 28,
-        letterSpacing: 0.3,
-    },
-    body: {
-        fontFamily: "Outfit-Regular",
-        fontSize: 16,
-        lineHeight: 22,
-    },
-    caption: {
-        fontFamily: "Outfit-Medium",
-        fontSize: 13,
-        lineHeight: 18,
-        letterSpacing: 0.2,
-    },
-};
-
-const shadows = {
-    sm: {
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-        elevation: 2,
-    },
-    md: {
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.15,
-        shadowRadius: 8,
-        elevation: 4,
-    },
-    lg: {
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 8 },
-        shadowOpacity: 0.2,
-        shadowRadius: 16,
-        elevation: 8,
-    },
-};
-
-export const styles = StyleSheet.create({
-    // Layout
+const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: colors.background,
+        backgroundColor: "#1C1917",
     },
     backgroundGradient: {
-        ...StyleSheet.absoluteFillObject,
+        position: "absolute",
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
     },
     content: {
         flex: 1,
@@ -522,114 +359,105 @@ export const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        paddingHorizontal: spacing.xxl,
+        paddingHorizontal: 32,
     },
     emptyStateText: {
-        ...typography.body,
-        color: colors.textPlaceholder,
+        fontSize: 16,
+        lineHeight: 0,
+        color: "#8B8B8B",
         textAlign: "center",
-        marginTop: spacing.md,
-        paddingHorizontal: spacing.lg,
+        marginTop: 0,
+        paddingHorizontal: 24,
+        fontFamily: "Outfit-Regular",
+        letterSpacing: -0.25,
     },
 
     // Video Player
     videoContainer: {
         flex: 1,
-        backgroundColor: colors.surface,
-        borderRadius: borderRadius.md,
+        backgroundColor: "#1F1F1F",
+        borderRadius: 12,
         overflow: "hidden",
-        marginHorizontal: spacing.md,
-        marginTop: spacing.sm,
-        ...shadows.lg,
+        marginHorizontal: 16,
+        marginTop: 8,
     },
     video: {
         width: "100%",
         height: "100%",
-    },
-    videoGradientTop: {
-        ...StyleSheet.absoluteFillObject,
-    },
-    videoGradientBottom: {
-        position: "absolute",
-        bottom: 0,
-        left: 0,
-        right: 0,
-        height: 160,
     },
     videoInfo: {
         position: "absolute",
         bottom: 0,
         left: 0,
         right: 0,
-        padding: spacing.lg,
+        padding: 24,
     },
     videoTitle: {
-        ...typography.title,
-        color: colors.text,
-        marginBottom: spacing.xs,
+        fontSize: 20,
+        fontWeight: "600",
+        color: "#FFFFFF",
+        marginBottom: 4,
         textShadowColor: "rgba(0, 0, 0, 0.9)",
         textShadowOffset: { width: 0, height: 2 },
         textShadowRadius: 6,
+        fontFamily: "Outfit-SemiBold",
     },
     videoDescription: {
-        ...typography.body,
         fontSize: 15,
-        color: colors.textSecondary,
-        marginBottom: spacing.md,
+        color: "#D1D5DB",
+        marginBottom: 16,
         textShadowColor: "rgba(0, 0, 0, 0.9)",
         textShadowOffset: { width: 0, height: 1 },
         textShadowRadius: 4,
+        fontFamily: "Outfit-Regular",
     },
-
-    // Insights Button
     insightsButton: {
         flexDirection: "row",
         alignItems: "center",
         backgroundColor: "rgba(255, 255, 255, 0.15)",
-        paddingHorizontal: spacing.md,
-        paddingVertical: spacing.sm + 2,
-        borderRadius: borderRadius.lg,
+        paddingHorizontal: 16,
+        paddingVertical: 10,
+        borderRadius: 20,
         borderWidth: 1,
         borderColor: "rgba(255, 255, 255, 0.25)",
         alignSelf: "flex-start",
     },
-    insightsButtonPressed: {
-        backgroundColor: "rgba(255, 255, 255, 0.2)",
-        transform: [{ scale: 0.98 }],
-    },
     insightsButtonText: {
-        ...typography.caption,
-        color: colors.text,
-        marginLeft: spacing.xs + 3,
+        fontSize: 14,
+        fontWeight: "500",
+        color: "#FFFFFF",
+        marginLeft: 6,
         textShadowColor: "rgba(0, 0, 0, 0.8)",
         textShadowOffset: { width: 0, height: 1 },
         textShadowRadius: 2,
+        fontFamily: "Outfit-Medium",
     },
 
     // Loading
     loadingOverlay: {
         position: "absolute",
-        bottom: spacing.xxl,
-        left: spacing.md,
-        right: spacing.md,
+        top: "7.5%",
+        left: 16,
+        right: 16,
         alignItems: "center",
+        transform: [{ translateY: -25 }],
+        zIndex: 10,
     },
     loadingContainer: {
         flexDirection: "row",
         alignItems: "center",
-        backgroundColor: colors.surface,
-        paddingHorizontal: spacing.lg,
-        paddingVertical: spacing.md,
-        borderRadius: borderRadius.lg,
+        backgroundColor: "#1F1F1F",
+        paddingHorizontal: 24,
+        paddingVertical: 16,
+        borderRadius: 20,
         borderWidth: 1,
-        borderColor: colors.border,
-        ...shadows.md,
+        borderColor: "#374151",
     },
     loadingText: {
-        ...typography.body,
         fontSize: 15,
-        color: colors.text,
-        marginLeft: spacing.sm + 4,
+        color: "#FFFFFF",
+        marginLeft: 12,
+        fontFamily: "Outfit-Regular",
     },
 
     // Chat Input
@@ -637,83 +465,68 @@ export const styles = StyleSheet.create({
         position: "absolute",
         left: 0,
         right: 0,
-        paddingHorizontal: spacing.md,
+        paddingHorizontal: 16,
     },
     chatInputContainer: {
-        backgroundColor: colors.surface,
-        borderRadius: borderRadius.lg,
+        backgroundColor: "#1F1F1F",
+        borderRadius: 20,
         borderWidth: 1,
-        borderColor: colors.border,
-        paddingHorizontal: spacing.md,
-        paddingVertical: spacing.sm + 10,
+        borderColor: "#374151",
+        paddingHorizontal: 16,
+        paddingVertical: 18,
         flexDirection: "row",
         alignItems: "flex-end",
         minHeight: 56,
         maxHeight: 120,
-        ...shadows.md,
     },
     textInputScrollView: {
         flex: 1,
         maxHeight: 96,
     },
     textInput: {
-        ...typography.body,
-        color: colors.text,
-        paddingVertical: spacing.xs,
+        fontSize: 16,
+        color: "#FFFFFF",
+        paddingVertical: 8,
+        paddingHorizontal: 4,
         minHeight: 24,
+        textAlignVertical: "center",
+        fontFamily: "Outfit-Regular",
     },
     chatActions: {
         flexDirection: "row",
         alignItems: "center",
-        marginLeft: spacing.sm + 4,
-        gap: spacing.sm,
+        marginLeft: 12,
+        gap: 8,
     },
 
     // Buttons
-    recordButtonContainer: {
-        position: "relative",
-        width: 36,
-        height: 36,
-        justifyContent: "center",
-        alignItems: "center",
-    },
     recordButton: {
         width: 36,
         height: 36,
-        borderRadius: borderRadius.full,
-        backgroundColor: colors.surface,
+        borderRadius: 18,
+        backgroundColor: "#1F1F1F",
         borderWidth: 1,
-        borderColor: colors.border,
+        borderColor: "#374151",
         alignItems: "center",
         justifyContent: "center",
-        ...shadows.sm,
     },
     recordButtonActive: {
-        backgroundColor: colors.accentSurface,
+        backgroundColor: "rgba(239, 68, 68, 0.1)",
         borderColor: "rgba(239, 68, 68, 0.3)",
-    },
-    recordButtonPulse: {
-        position: "absolute",
-        width: 36,
-        height: 36,
-        borderRadius: borderRadius.full,
-        backgroundColor: colors.accent,
     },
     sendButton: {
         width: 36,
         height: 36,
-        borderRadius: borderRadius.full,
-        backgroundColor: colors.surface,
+        borderRadius: 18,
+        backgroundColor: "#1F1F1F",
         borderWidth: 1,
-        borderColor: colors.border,
+        borderColor: "#374151",
         alignItems: "center",
         justifyContent: "center",
-        ...shadows.sm,
     },
     sendButtonDisabled: {
-        backgroundColor: colors.disabled,
+        backgroundColor: "#111111",
         borderColor: "rgba(255, 255, 255, 0.08)",
-        shadowOpacity: 0,
     },
     buttonPressed: {
         transform: [{ scale: 0.95 }],

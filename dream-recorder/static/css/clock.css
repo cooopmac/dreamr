@@ -1,0 +1,31 @@
+.clock-display {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 10;
+    opacity: 0;
+    display: none;
+    margin-top: 1rem;
+}
+
+.clock-digits {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--clock-spacing);
+    font-family: var(--clock-font-family);
+    font-size: var(--clock-font-size);
+    color: var(--clock-color);
+    font-weight: var(--clock-font-weight);
+}
+
+.digit, .colon {
+    line-height: 1;
+    transition: opacity 0.3s ease;
+}
+
+.colon.hidden {
+    opacity: 0;
+}
