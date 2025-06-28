@@ -1,6 +1,8 @@
 // Dream Prompt Enhancer - Convert dream descriptions into cinematic video prompts
 // Based on the dream-recorder implementation
 
+import { getDreamConfig, getGPTSystemPrompt } from "../constants/DreamConfig";
+
 interface OpenAIResponse {
     choices: Array<{
         message: {
@@ -22,18 +24,13 @@ class DreamPromptEnhancer {
     private temperature: number;
     private maxTokens: number;
 
-    // System prompts extracted from dream-recorder
-    private readonly SYSTEM_PROMPT =
-        "You are a creative video prompt engineer specializing in Luma Dream Machine. Your task is to transform dream descriptions into cinematic video prompts using clear, simple language. Be specific about useful visual elements and emotional tone. Keep the prompt concise but rich in visual detail, formatted as a single, succinct sentence.";
-
-    private readonly SYSTEM_PROMPT_EXTEND =
-        "You are a creative video prompt engineer specializing in Luma Dream Machine. Your task is to transform dream descriptions into cinematic video prompts using clear, simple language. Be specific about useful visual elements and emotional tone. Keep the prompt concise but rich in visual detail, formatted as two succinct sentences. Break down the prompt into exactly two clear separate parts, using '*****' as a separator between part one and part two.";
-
     constructor(config: DreamPromptConfig) {
         this.apiKey = config.apiKey;
-        this.model = config.model || "gpt-4o-mini";
-        this.temperature = config.temperature || 0.7;
-        this.maxTokens = config.maxTokens || 400;
+        // Use configuration defaults from DreamConfig
+        const dreamConfig = getDreamConfig();
+        this.model = config.model || dreamConfig.gpt.model;
+        this.temperature = config.temperature || dreamConfig.gpt.temperature;
+        this.maxTokens = config.maxTokens || dreamConfig.gpt.maxTokens;
     }
 
     /**
@@ -51,9 +48,7 @@ class DreamPromptEnhancer {
         }
 
         try {
-            const systemPrompt = extendMode
-                ? this.SYSTEM_PROMPT_EXTEND
-                : this.SYSTEM_PROMPT;
+            const systemPrompt = getGPTSystemPrompt(extendMode);
 
             const response = await fetch(
                 "https://api.openai.com/v1/chat/completions",
@@ -199,11 +194,7 @@ export const getDreamEnhancer = (): DreamPromptEnhancer => {
 };
 
 /**
- * Helper function to enhance a dream prompt directly
- * @param dreamDescription - The dream description to enhance
- * @param apiKey - OpenAI API key
- * @param extendMode - Whether to use extended mode (default: false)
- * @returns Enhanced cinematic prompt
+ * Simple function for direct usage - uses centralized config
  */
 export const enhanceDreamPrompt = async (
     dreamDescription: string,

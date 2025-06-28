@@ -1,5 +1,7 @@
-// Dream Video Generator - Generate videos using LumaLabs API
-// Based on the dream-recorder implementation
+// Dream Video Generator - Generate videos using Luma Labs API
+// Based on the dream-recorder implementation with identical settings
+
+import { getDreamConfig } from "../constants/DreamConfig";
 
 interface LumaGenerationResponse {
     id: string;
@@ -50,12 +52,16 @@ class DreamVideoGenerator {
 
     constructor(config: VideoGenerationConfig) {
         this.apiKey = config.apiKey;
-        this.model = config.model || "ray-flash-2";
-        this.resolution = config.resolution || "540p";
-        this.duration = config.duration || "5s";
-        this.aspectRatio = config.aspectRatio || "21:9";
-        this.pollInterval = config.pollInterval || 5; // seconds
-        this.maxPollAttempts = config.maxPollAttempts || 100;
+        // Use centralized dream config defaults
+        const dreamConfig = getDreamConfig();
+        this.model = config.model || dreamConfig.luma.model;
+        this.resolution = config.resolution || dreamConfig.luma.resolution;
+        this.duration = config.duration || dreamConfig.luma.duration;
+        this.aspectRatio = config.aspectRatio || dreamConfig.luma.aspectRatio;
+        this.pollInterval =
+            config.pollInterval || dreamConfig.luma.pollInterval;
+        this.maxPollAttempts =
+            config.maxPollAttempts || dreamConfig.luma.maxPollAttempts;
     }
 
     /**
@@ -421,11 +427,10 @@ export const getVideoGenerator = (): DreamVideoGenerator => {
 export const generateDreamVideo = async (
     prompt: string,
     apiKey: string,
-    extendMode: boolean = false,
-    extensionPrompt?: string
+    extendMode: boolean = false
 ): Promise<GeneratedVideo> => {
     const generator = new DreamVideoGenerator({ apiKey });
-    return generator.generateVideo(prompt, extendMode, extensionPrompt);
+    return generator.generateVideo(prompt, extendMode);
 };
 
 export default DreamVideoGenerator;

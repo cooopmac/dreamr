@@ -1,4 +1,5 @@
 import { ResizeMode, Video } from "expo-av";
+import { BlurView } from "expo-blur";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import { useEffect } from "react";
@@ -39,8 +40,12 @@ export default function Landing() {
         transform: [{ translateY: translateY.value }],
     }));
 
-    const handleCTAPress = () => {
-        router.push("/(tabs)/dreams");
+    const handleLoginPress = () => {
+        router.push("/(auth)/login");
+    };
+
+    const handleSignupPress = () => {
+        router.push("/(auth)/signup");
     };
 
     return (
@@ -126,24 +131,54 @@ export default function Landing() {
 
                 {/* Bottom Section */}
                 <View style={styles.bottomSection}>
-                    <Animated.View style={[styles.ctaContainer, animatedStyle]}>
+                    <Animated.View
+                        style={[styles.authContainer, animatedStyle]}
+                    >
+                        {/* Signup Button - Primary */}
                         <Pressable
-                            onPress={handleCTAPress}
+                            onPress={handleSignupPress}
                             style={({ pressed }) => [
-                                styles.ctaButton,
-                                pressed && styles.ctaButtonPressed,
+                                styles.primaryButton,
+                                pressed && styles.primaryButtonPressed,
                             ]}
                         >
-                            {({ pressed }) => (
-                                <Text
-                                    style={[
-                                        styles.ctaText,
-                                        pressed && styles.ctaTextPressed,
+                            <BlurView intensity={25} style={styles.buttonBlur}>
+                                <LinearGradient
+                                    colors={[
+                                        "rgba(255, 252, 245, 0.2)",
+                                        "rgba(255, 252, 245, 0.1)",
                                     ]}
-                                >
-                                    Ready to begin your journey?
+                                    style={styles.buttonGradient}
+                                />
+                                <Text style={styles.primaryButtonText}>
+                                    Begin Your Journey
                                 </Text>
-                            )}
+                            </BlurView>
+                        </Pressable>
+
+                        {/* Login Button - Secondary */}
+                        <Pressable
+                            onPress={handleLoginPress}
+                            style={({ pressed }) => [
+                                styles.secondaryButton,
+                                pressed && styles.secondaryButtonPressed,
+                            ]}
+                        >
+                            <BlurView
+                                intensity={15}
+                                style={styles.secondaryBlur}
+                            >
+                                <LinearGradient
+                                    colors={[
+                                        "rgba(255, 252, 245, 0.05)",
+                                        "rgba(255, 252, 245, 0.02)",
+                                    ]}
+                                    style={styles.buttonGradient}
+                                />
+                                <Text style={styles.secondaryButtonText}>
+                                    Already have an account? Sign In
+                                </Text>
+                            </BlurView>
                         </Pressable>
                     </Animated.View>
                 </View>
@@ -203,53 +238,69 @@ const styles = StyleSheet.create({
         textShadowOffset: { width: 0, height: 1 },
         textShadowRadius: 4,
     },
-    taglineContainer: {
-        marginBottom: 10,
-    },
-    tagline: {
-        fontFamily: "PPNeueMontreal-Book",
-        fontSize: 17,
-        color: "#E7E5E4",
-        textAlign: "center",
-        lineHeight: 20,
-        letterSpacing: 0.3,
-        textShadowColor: "rgba(0, 0, 0, 0.5)",
-        textShadowOffset: { width: 0, height: 1 },
-        textShadowRadius: 3,
-    },
     bottomSection: {
         paddingBottom: 50,
-        paddingHorizontal: 32,
     },
-    ctaContainer: {
-        alignItems: "center",
+    authContainer: {
+        gap: 16,
     },
-    ctaButton: {
-        paddingHorizontal: 25,
-        paddingVertical: 12,
-        borderRadius: 25,
-        backgroundColor: "rgba(255, 255, 255, 0.1)",
-        borderWidth: 1,
-        borderColor: "rgba(255, 255, 255, 0.1)",
+    primaryButton: {
+        borderRadius: 16,
+        overflow: "hidden",
     },
-    ctaButtonPressed: {
-        backgroundColor: "rgba(255, 255, 255, 0.15)",
-        borderColor: "rgba(255, 255, 255, 0.2)",
+    primaryButtonPressed: {
+        opacity: 0.8,
         transform: [{ scale: 0.98 }],
     },
-    ctaText: {
-        fontFamily: "Outfit-Medium",
-        color: "#D6D3D1",
+    buttonBlur: {
+        borderRadius: 16,
+        overflow: "hidden",
+        borderWidth: 1,
+        borderColor: "rgba(255, 252, 245, 0.2)",
+    },
+    buttonGradient: {
+        position: "absolute",
+        top: 0,
+        left: 0,
+        bottom: 0,
+        right: 0,
+    },
+    primaryButtonText: {
+        fontFamily: "Outfit-Bold",
+        fontSize: 18,
+        color: "#FFFCF5",
         textAlign: "center",
-        letterSpacing: -0.5,
-        textShadowColor: "rgba(0, 0, 0, 0.3)",
+        padding: 20,
+        letterSpacing: -0.3,
+        textShadowColor: "rgba(0, 0, 0, 0.5)",
         textShadowOffset: { width: 0, height: 1 },
         textShadowRadius: 3,
     },
-    ctaTextPressed: {
-        color: "#FFFCF5",
+    secondaryButton: {
+        borderRadius: 16,
+        overflow: "hidden",
+    },
+    secondaryButtonPressed: {
+        opacity: 0.7,
+        transform: [{ scale: 0.98 }],
+    },
+    secondaryBlur: {
+        borderRadius: 16,
+        overflow: "hidden",
+        borderWidth: 1,
+        borderColor: "rgba(255, 252, 245, 0.1)",
+    },
+    secondaryButtonText: {
+        fontFamily: "Outfit-Medium",
+        fontSize: 16,
+        color: "#E7E5E4",
+        textAlign: "center",
+        padding: 18,
+        letterSpacing: -0.3,
         textShadowColor: "rgba(0, 0, 0, 0.5)",
-        textShadowRadius: 5,
+        textShadowOffset: { width: 0, height: 1 },
+        textShadowRadius: 2,
+        opacity: 0.9,
     },
     topBlur: {
         position: "absolute",
