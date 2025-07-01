@@ -3,6 +3,7 @@ import { ResizeMode, Video } from "expo-av";
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useEffect, useState } from "react";
 import {
+    Alert,
     Keyboard,
     KeyboardAvoidingView,
     Platform,
@@ -25,6 +26,20 @@ import Animated, {
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+import DreamEnhancementProgress from "../../components/DreamEnhancementProgress";
+import VideoGenerationProgressComponent from "../../components/VideoGenerationProgress";
+import {
+    enhanceDream,
+    EnhancementProgress,
+    EnhancementStatus,
+    onEnhancementProgress,
+} from "../../utils/dreamEnhancementService";
+import {
+    generateDreamVideoWithProgress,
+    onVideoGenerationProgress,
+    VideoGenerationProgress,
+    VideoGenerationStatus,
+} from "../../utils/dreamVideoGenerator";
 import VoiceRecorder from "../../utils/voiceRecording";
 
 // Constants
@@ -40,7 +55,78 @@ export default function Record() {
     const [keyboardHeight, setKeyboardHeight] = useState(0);
     const [chatInputHeight, setChatInputHeight] = useState(56);
 
+    // Enhancement states
+    const [enhancementProgress, setEnhancementProgress] =
+        useState<EnhancementProgress>({
+            status: EnhancementStatus.IDLE,
+            message: "",
+        });
+    const [enhancedPrompt, setEnhancedPrompt] = useState<string>("");
+    const [showEnhancementProgress, setShowEnhancementProgress] =
+        useState(false);
+
+    // Video generation progress state
+    const [videoGenerationProgress, setVideoGenerationProgress] =
+        useState<VideoGenerationProgress>({
+            status: VideoGenerationStatus.IDLE,
+            message: "",
+        });
+    const [showVideoGenerationProgress, setShowVideoGenerationProgress] =
+        useState(false);
+
     const insets = useSafeAreaInsets();
+
+    // Enhancement progress listener
+    useEffect(() => {
+        const unsubscribe = onEnhancementProgress((progress) => {
+            setEnhancementProgress(progress);
+
+            // Show progress UI when enhancing starts
+            if (progress.status === EnhancementStatus.ENHANCING) {
+                setShowEnhancementProgress(true);
+            }
+
+            // Hide progress UI after a delay when completed or errored
+            if (
+                progress.status === EnhancementStatus.COMPLETED ||
+                progress.status === EnhancementStatus.ERROR
+            ) {
+                setTimeout(() => {
+                    setShowEnhancementProgress(false);
+                }, 2000);
+            }
+        });
+
+        return unsubscribe;
+    }, []);
+
+    // Video generation progress listener
+    useEffect(() => {
+        const unsubscribe = onVideoGenerationProgress((progress) => {
+            setVideoGenerationProgress(progress);
+
+            // Show progress UI when video generation starts
+            if (
+                progress.status === VideoGenerationStatus.GENERATING ||
+                progress.status === VideoGenerationStatus.STARTING ||
+                progress.status === VideoGenerationStatus.QUEUED
+            ) {
+                setShowVideoGenerationProgress(true);
+            }
+
+            // Hide progress UI after a delay when completed or errored
+            if (
+                progress.status === VideoGenerationStatus.COMPLETED ||
+                progress.status === VideoGenerationStatus.ERROR
+            ) {
+                setTimeout(() => {
+                    setShowVideoGenerationProgress(false);
+                }, 2000);
+            }
+        });
+
+        return unsubscribe;
+    }, []);
 
     // Keyboard listeners
     useEffect(() => {
@@ -64,6 +150,9 @@ export default function Record() {
         if (!isRecording) {
             setVideoUri(null);
             setTranscribedText("");
+            setEnhancedPrompt("");
+            setShowEnhancementProgress(false);
+            setShowVideoGenerationProgress(false);
             setTimeout(() => setIsRecording(true), 150);
         } else {
             setIsRecording(false);
@@ -84,16 +173,88 @@ export default function Record() {
         if (!transcribedText.trim() || isGenerating) return;
 
         setIsGenerating(true);
+        setVideoUri(null);
+        setEnhancedPrompt("");
         Keyboard.dismiss();
 
         try {
-            // TODO: Replace with actual API call
-            await new Promise((resolve) =>
-                setTimeout(resolve, VIDEO_GENERATION_TIME)
+            // Step 1: Enhance the dream description
+            console.log("Starting dream enhancement...");
+            const enhancementResult = await enhanceDream(transcribedText);
+
+            let promptToUse = transcribedText; // Fallback to original
+
+            if (enhancementResult.status === EnhancementStatus.ERROR) {
+                // Show error but don't stop the process - use original text
+                Alert.alert(
+                    "Enhancement Failed",
+                    `${enhancementResult.error}\n\nWe'll use your original description instead.`,
+                    [{ text: "Continue", style: "default" }]
+                );
+            } else if (enhancementResult.enhancedPrompt) {
+                promptToUse = enhancementResult.enhancedPrompt;
+                setEnhancedPrompt(enhancementResult.enhancedPrompt);
+                console.log(
+                    "Enhanced prompt:",
+                    enhancementResult.enhancedPrompt
+                );
+
+                // Try to parse and show structured components
+                try {
+                    const structured = JSON.parse(
+                        enhancementResult.enhancedPrompt
+                    );
+                    console.log("🎨 Structured Enhancement Components:");
+                    console.log("  Scene:", structured.scene);
+                    console.log("  Camera:", structured.camera);
+                    console.log("  Lighting:", structured.lighting);
+                    console.log("  Style:", structured.style);
+                    console.log("  Final Prompt:", structured.prompt);
+                } catch (e) {
+                    console.log("📝 Plain text enhancement (not JSON)");
+                }
+            }
+
+            // Step 2: Generate video using enhanced prompt with Luma Labs
+            console.log("Starting video generation with enhanced prompt...");
+            console.log("Original dream:", transcribedText);
+            console.log("Prompt being sent to Luma:", promptToUse);
+            console.log(
+                "Enhanced prompt different from original?",
+                promptToUse !== transcribedText
             );
-            setVideoUri(PLACEHOLDER_VIDEO);
+
+            const lumaApiKey = process.env.EXPO_PUBLIC_LUMA_API_KEY || "";
+
+            if (!lumaApiKey) {
+                throw new Error("Luma Labs API key not configured");
+            }
+
+            const videoResult = await generateDreamVideoWithProgress(
+                promptToUse,
+                lumaApiKey
+            );
+
+            if (videoResult.videoUrl) {
+                setVideoUri({ uri: videoResult.videoUrl });
+                console.log(
+                    "Video generated successfully:",
+                    videoResult.videoUrl
+                );
+            } else {
+                throw new Error(
+                    "Video generation completed but no video URL received"
+                );
+            }
         } catch (error) {
-            console.error("Video generation failed:", error);
+            console.error("Video generation process failed:", error);
+            Alert.alert(
+                "Error",
+                "Failed to create your dream visualization. Showing example video instead.",
+                [{ text: "OK", style: "default" }]
+            );
+            // Fallback to placeholder video
+            setVideoUri(PLACEHOLDER_VIDEO);
         } finally {
             setIsGenerating(false);
         }
@@ -158,6 +319,18 @@ export default function Record() {
                                 { paddingBottom: mainContentPaddingBottom },
                             ]}
                         >
+                            {/* Enhancement Progress */}
+                            <DreamEnhancementProgress
+                                progress={enhancementProgress}
+                                visible={showEnhancementProgress}
+                            />
+
+                            {/* Video Generation Progress */}
+                            <VideoGenerationProgressComponent
+                                progress={videoGenerationProgress}
+                                visible={showVideoGenerationProgress}
+                            />
+
                             {videoUri ? (
                                 // Video Player
                                 <Animated.View
@@ -186,6 +359,17 @@ export default function Record() {
                                                 : ""}
                                             "
                                         </Text>
+                                        {enhancedPrompt &&
+                                            enhancedPrompt !==
+                                                transcribedText && (
+                                                <Text
+                                                    style={
+                                                        styles.enhancedPromptHint
+                                                    }
+                                                >
+                                                    ✨ Enhanced with AI
+                                                </Text>
+                                            )}
                                         <Pressable
                                             style={styles.insightsButton}
                                         >
@@ -223,26 +407,29 @@ export default function Record() {
                             )}
 
                             {/* Loading Indicator */}
-                            {isGenerating && (
-                                <Animated.View
-                                    entering={FadeIn}
-                                    exiting={FadeOut}
-                                    style={styles.loadingOverlay}
-                                >
-                                    <View style={styles.loadingContainer}>
-                                        <Animated.View style={loadingStyle}>
-                                            <Ionicons
-                                                name="film"
-                                                size={32}
-                                                color="#FFFFFF"
-                                            />
-                                        </Animated.View>
-                                        <Text style={styles.loadingText}>
-                                            Creating your dream visualization...
-                                        </Text>
-                                    </View>
-                                </Animated.View>
-                            )}
+                            {isGenerating &&
+                                !showEnhancementProgress &&
+                                !showVideoGenerationProgress && (
+                                    <Animated.View
+                                        entering={FadeIn}
+                                        exiting={FadeOut}
+                                        style={styles.loadingOverlay}
+                                    >
+                                        <View style={styles.loadingContainer}>
+                                            <Animated.View style={loadingStyle}>
+                                                <Ionicons
+                                                    name="film"
+                                                    size={32}
+                                                    color="#FFFFFF"
+                                                />
+                                            </Animated.View>
+                                            <Text style={styles.loadingText}>
+                                                Creating your dream
+                                                visualization...
+                                            </Text>
+                                        </View>
+                                    </Animated.View>
+                                )}
                         </View>
                     </View>
                 </TouchableWithoutFeedback>
@@ -409,6 +596,15 @@ const styles = StyleSheet.create({
         textShadowColor: "rgba(0, 0, 0, 0.9)",
         textShadowOffset: { width: 0, height: 1 },
         textShadowRadius: 4,
+        fontFamily: "Outfit-Regular",
+    },
+    enhancedPromptHint: {
+        fontSize: 12,
+        color: "#D1D5DB",
+        marginBottom: 16,
+        textShadowColor: "rgba(0, 0, 0, 0.9)",
+        textShadowOffset: { width: 0, height: 1 },
+        textShadowRadius: 2,
         fontFamily: "Outfit-Regular",
     },
     insightsButton: {

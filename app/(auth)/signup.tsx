@@ -5,6 +5,8 @@ import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import { useCallback, useRef, useState } from "react";
 import {
+    ActivityIndicator,
+    Alert,
     KeyboardAvoidingView,
     Platform,
     Pressable,
@@ -15,12 +17,14 @@ import {
     View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { signUp } from "../../utils/userAuth";
 
 export default function Signup() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const videoRef = useRef<Video>(null);
 
@@ -33,10 +37,71 @@ export default function Signup() {
         }, [])
     );
 
-    const handleSignup = () => {
-        // TODO: Implement signup logic
-        console.log("Signup with:", name, email, password, confirmPassword);
-        router.push("/(tabs)/dreams");
+    const handleSignup = async () => {
+        if (loading) return;
+
+        // Validation
+        if (!name.trim()) {
+            Alert.alert("Error", "Please enter your full name");
+            return;
+        }
+
+        if (!email.trim()) {
+            Alert.alert("Error", "Please enter your email address");
+            return;
+        }
+
+        if (!password.trim()) {
+            Alert.alert("Error", "Please enter a password");
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            Alert.alert("Error", "Passwords do not match");
+            return;
+        }
+
+        if (password.length < 6) {
+            Alert.alert("Error", "Password must be at least 6 characters long");
+            return;
+        }
+
+        setLoading(true);
+
+        try {
+            const result = await signUp(email.trim(), password, name.trim());
+
+            if (result.success) {
+                if (result.data?.user && !result.data?.session) {
+                    // Email confirmation required
+                    Alert.alert(
+                        "Check Your Email",
+                        "We've sent you a confirmation email. Please check your inbox and click the confirmation link to complete your account setup.",
+                        [
+                            {
+                                text: "OK",
+                                onPress: () => router.push("/(auth)/login"),
+                            },
+                        ]
+                    );
+                } else {
+                    // User is signed in immediately
+                    router.push("/(tabs)/dreams");
+                }
+            } else {
+                Alert.alert(
+                    "Signup Failed",
+                    result.error || "Please try again"
+                );
+            }
+        } catch (error) {
+            Alert.alert(
+                "Error",
+                "An unexpected error occurred. Please try again."
+            );
+        } finally {
+            setLoading(false);
+        }
     };
 
     const navigateToLogin = () => {
@@ -284,9 +349,11 @@ export default function Signup() {
                                 {/* Signup Button */}
                                 <Pressable
                                     onPress={handleSignup}
+                                    disabled={loading}
                                     style={({ pressed }) => [
                                         styles.signupButton,
                                         pressed && styles.signupButtonPressed,
+                                        loading && styles.signupButtonDisabled,
                                     ]}
                                 >
                                     <BlurView
@@ -300,9 +367,20 @@ export default function Signup() {
                                             ]}
                                             style={styles.buttonGradient}
                                         />
-                                        <Text style={styles.signupButtonText}>
-                                            Create Account
-                                        </Text>
+                                        <View style={styles.buttonContent}>
+                                            {loading && (
+                                                <ActivityIndicator
+                                                    color="#FFFCF5"
+                                                    size="small"
+                                                    style={styles.buttonSpinner}
+                                                />
+                                            )}
+                                            <Text
+                                                style={styles.signupButtonText}
+                                            >
+                                                Create Account
+                                            </Text>
+                                        </View>
                                     </BlurView>
                                 </Pressable>
                             </View>
@@ -520,6 +598,9 @@ const styles = StyleSheet.create({
         opacity: 0.8,
         transform: [{ scale: 0.98 }],
     },
+    signupButtonDisabled: {
+        opacity: 0.5,
+    },
     buttonBlur: {
         borderRadius: 16,
         overflow: "hidden",
@@ -532,6 +613,14 @@ const styles = StyleSheet.create({
         left: 0,
         bottom: 0,
         right: 0,
+    },
+    buttonContent: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    buttonSpinner: {
+        marginRight: 8,
     },
     signupButtonText: {
         fontFamily: "Outfit-Bold",

@@ -5,6 +5,8 @@ import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import { useCallback, useRef, useState } from "react";
 import {
+    ActivityIndicator,
+    Alert,
     KeyboardAvoidingView,
     Platform,
     Pressable,
@@ -15,10 +17,12 @@ import {
     View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { signIn } from "../../utils/userAuth";
 
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const videoRef = useRef<Video>(null);
 
@@ -31,10 +35,32 @@ export default function Login() {
         }, [])
     );
 
-    const handleLogin = () => {
-        // TODO: Implement login logic
-        console.log("Login with:", email, password);
-        router.push("/(tabs)/dreams");
+    const handleLogin = async () => {
+        if (loading) return;
+
+        if (!email.trim() || !password.trim()) {
+            Alert.alert("Error", "Please enter both email and password");
+            return;
+        }
+
+        setLoading(true);
+
+        try {
+            const result = await signIn(email.trim(), password);
+
+            if (result.success) {
+                router.push("/(tabs)/dreams");
+            } else {
+                Alert.alert("Login Failed", result.error || "Please try again");
+            }
+        } catch (error) {
+            Alert.alert(
+                "Error",
+                "An unexpected error occurred. Please try again."
+            );
+        } finally {
+            setLoading(false);
+        }
     };
 
     const navigateToSignup = () => {
@@ -231,9 +257,11 @@ export default function Login() {
                                 {/* Login Button */}
                                 <Pressable
                                     onPress={handleLogin}
+                                    disabled={loading}
                                     style={({ pressed }) => [
                                         styles.loginButton,
                                         pressed && styles.loginButtonPressed,
+                                        loading && styles.loginButtonDisabled,
                                     ]}
                                 >
                                     <BlurView
@@ -247,9 +275,20 @@ export default function Login() {
                                             ]}
                                             style={styles.buttonGradient}
                                         />
-                                        <Text style={styles.loginButtonText}>
-                                            Sign In
-                                        </Text>
+                                        <View style={styles.buttonContent}>
+                                            {loading && (
+                                                <ActivityIndicator
+                                                    color="#FFFCF5"
+                                                    size="small"
+                                                    style={styles.buttonSpinner}
+                                                />
+                                            )}
+                                            <Text
+                                                style={styles.loginButtonText}
+                                            >
+                                                Sign In
+                                            </Text>
+                                        </View>
                                     </BlurView>
                                 </Pressable>
                             </View>
@@ -469,6 +508,9 @@ const styles = StyleSheet.create({
         opacity: 0.8,
         transform: [{ scale: 0.98 }],
     },
+    loginButtonDisabled: {
+        opacity: 0.5,
+    },
     buttonBlur: {
         borderRadius: 16,
         overflow: "hidden",
@@ -481,6 +523,14 @@ const styles = StyleSheet.create({
         left: 0,
         bottom: 0,
         right: 0,
+    },
+    buttonContent: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    buttonSpinner: {
+        marginRight: 8,
     },
     loginButtonText: {
         fontFamily: "Outfit-Bold",

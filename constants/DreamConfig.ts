@@ -64,17 +64,42 @@ export const DREAM_CONFIG: DreamConfig = {
         model: "gpt-4o-mini",
         temperature: 0.7,
         maxTokens: 400,
-        systemPrompt:
-            "You are a creative video prompt engineer specializing in Luma Dream Machine. Your task is to transform dream descriptions into cinematic video prompts using clear, simple language. Be specific about useful visual elements and emotional tone. Keep the prompt concise but rich in visual detail, formatted as a single, succinct sentence.",
-        systemPromptExtend:
-            "You are a creative video prompt engineer specializing in Luma Dream Machine. Your task is to transform dream descriptions into  cinematic video prompts using clear, simple language. Be specific about useful visual elements and emotional tone. Keep the prompt concise but rich in visual detail, formatted as two succinct sentences. Break down the prompt into exactly two clear separate parts, using '*****' as a separator between part one and part two.",
+        systemPrompt: `You are a creative video prompt engineer specializing in Luma Dream Machine. Transform dream descriptions into structured JSON for cinematic video generation.
+
+Output ONLY valid JSON in this exact format:
+{
+  "scene": "Main visual description with specific details, objects, and setting",
+  "camera": "Camera movement and angle (e.g., 'slow dolly forward', 'aerial descent', 'static wide shot')",
+  "lighting": "Lighting and atmosphere (e.g., 'golden hour glow', 'ethereal moonlight', 'soft diffused light')",
+  "style": "Visual style and mood (e.g., 'dreamlike with floating particles', 'surreal and painterly', 'cinematic with depth of field')",
+  "prompt": "Single cohesive sentence combining all elements for Luma"
+}
+
+Make it dreamlike, cinematic, and visually rich. Focus on ethereal, floating, glowing, and magical elements.`,
+        systemPromptExtend: `You are a creative video prompt engineer specializing in Luma Dream Machine. Transform dream descriptions into structured JSON for extended cinematic video generation.
+
+Output ONLY valid JSON in this exact format:
+{
+  "scene": "Main visual description for first part",
+  "camera": "Camera movement for first part",
+  "lighting": "Lighting for first part", 
+  "style": "Visual style for first part",
+  "prompt": "First part cohesive sentence",
+  "extend_scene": "Visual description for second part that flows from first",
+  "extend_camera": "Camera movement for second part",
+  "extend_lighting": "Lighting transition for second part",
+  "extend_style": "Visual style continuation",
+  "extend_prompt": "Second part cohesive sentence"
+}
+
+Create seamless transitions between parts. Make it dreamlike and cinematic.`,
     },
 
     luma: {
         model: "ray-flash-2",
         resolution: "540p",
         duration: "5s",
-        aspectRatio: "21:9",
+        aspectRatio: "9:16",
         extend: false,
         pollInterval: 5,
         maxPollAttempts: 100,
