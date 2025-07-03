@@ -1,22 +1,7 @@
 // Dream Video Generator - Generate videos using Luma Labs API
-// Based on the dream-recorder implementation with identical settings
+// Based on dream-recorder implementation with identical behavior
 
 import { getDreamConfig } from "../constants/DreamConfig";
-
-// Enhanced prompt structure from GPT
-export interface StructuredPrompt {
-    scene: string;
-    camera: string;
-    lighting: string;
-    style: string;
-    prompt: string;
-    // For extended videos
-    extend_scene?: string;
-    extend_camera?: string;
-    extend_lighting?: string;
-    extend_style?: string;
-    extend_prompt?: string;
-}
 
 // Progress tracking interfaces
 export enum VideoGenerationStatus {
@@ -37,6 +22,7 @@ export interface VideoGenerationProgress {
     estimatedTimeRemaining?: number; // seconds
 }
 
+// API response interfaces
 interface LumaGenerationResponse {
     id: string;
     state?: string;
@@ -84,7 +70,7 @@ class DreamVideoGenerator {
     private progressListeners: ((progress: VideoGenerationProgress) => void)[] =
         [];
 
-    // API endpoints from dream-recorder
+    // API endpoints (matching dream-recorder)
     private readonly API_BASE_URL = "https://api.lumalabs.ai/dream-machine/v1";
     private readonly GENERATIONS_ENDPOINT = `${this.API_BASE_URL}/generations`;
 
@@ -109,7 +95,6 @@ class DreamVideoGenerator {
         callback: (progress: VideoGenerationProgress) => void
     ): () => void {
         this.progressListeners.push(callback);
-
         return () => {
             this.progressListeners = this.progressListeners.filter(
                 (listener) => listener !== callback
@@ -131,8 +116,8 @@ class DreamVideoGenerator {
     }
 
     /**
-     * Generate a video from a cinematic prompt
-     * @param prompt - The enhanced cinematic prompt
+     * Generate a video from a natural language prompt (matching dream-recorder)
+     * @param prompt - Simple natural language prompt from GPT
      * @param extendMode - Whether to create an extended video (default: false)
      * @param extensionPrompt - The prompt for the second part (used if extendMode is true)
      * @returns Generated video information
@@ -152,55 +137,48 @@ class DreamVideoGenerator {
         }
 
         try {
-            // Notify start
+            // Use the prompt as-is (simple natural language from GPT)
+            let processedPrompt = prompt.trim();
+            let extPrompt = extensionPrompt || "Continue on with this video";
+
+            // Handle ***** separator for extended mode (like dream-recorder)
+            if (extendMode && prompt.includes("*****")) {
+                const parts = prompt.split("*****");
+                processedPrompt = parts[0]?.trim() || prompt;
+                extPrompt = parts[1]?.trim() || extPrompt;
+            }
+
+            // Step 1: Create initial generation request
+            console.log(
+                "🎬 Generating video:",
+                processedPrompt.substring(0, 100) +
+                    (processedPrompt.length > 100 ? "..." : "")
+            );
+
             this.notifyProgress({
                 status: VideoGenerationStatus.STARTING,
                 message: "Starting video generation...",
                 progress: 5,
             });
 
-            // Parse extended prompt if needed
-            let initialPrompt = prompt;
-            let extPrompt = extensionPrompt || "Continue on with this video";
-
-            if (extendMode && prompt.includes("*****")) {
-                const [initial, extension] = prompt.split("*****", 2);
-                initialPrompt = initial.trim();
-                extPrompt = extension.trim();
-            }
-
-            // Step 1: Create initial generation request
-            console.log(
-                "🎬 Starting video generation with prompt:",
-                initialPrompt
-            );
-
-            this.notifyProgress({
-                status: VideoGenerationStatus.QUEUED,
-                message: "Creating generation request...",
-                progress: 10,
-            });
-
-            const generationId = await this.createGeneration(initialPrompt);
-            console.log("✅ Generation started with ID:", generationId);
+            const generationId = await this.createGeneration(processedPrompt);
 
             // Step 2: Wait for initial video completion
             this.notifyProgress({
                 status: VideoGenerationStatus.GENERATING,
                 message: "AI is creating your dream video...",
                 progress: 20,
-                estimatedTimeRemaining: 120, // ~2 minutes typical
+                estimatedTimeRemaining: 120,
             });
 
             const initialVideoUrl = await this.pollForCompletion(generationId);
-            console.log("✅ Initial video completed:", initialVideoUrl);
 
             let finalVideoUrl = initialVideoUrl;
             let finalGenerationId = generationId;
 
             // Step 3: Extend video if requested
             if (extendMode) {
-                console.log("🔄 Extending video with prompt:", extPrompt);
+                console.log("🔄 Extending video...");
 
                 this.notifyProgress({
                     status: VideoGenerationStatus.GENERATING,
@@ -212,11 +190,8 @@ class DreamVideoGenerator {
                     generationId,
                     extPrompt
                 );
-                console.log("✅ Extension started with ID:", extendedId);
-
                 finalVideoUrl = await this.pollForCompletion(extendedId);
                 finalGenerationId = extendedId;
-                console.log("✅ Extended video completed:", finalVideoUrl);
             }
 
             // Notify completion
@@ -226,19 +201,21 @@ class DreamVideoGenerator {
                 progress: 100,
             });
 
+            console.log("✅ Video completed successfully");
+
             return {
                 videoUrl: finalVideoUrl,
                 generationId: finalGenerationId,
-                prompt: initialPrompt,
+                prompt: processedPrompt,
                 extendedPrompt: extendMode ? extPrompt : undefined,
             };
         } catch (error) {
-            console.error("❌ Video generation failed:", error);
-
             const errorMessage =
                 error instanceof Error
                     ? error.message
                     : "Unknown error occurred";
+            console.error("❌ Video generation failed:", errorMessage);
+
             this.notifyProgress({
                 status: VideoGenerationStatus.ERROR,
                 message: `Video generation failed: ${errorMessage}`,
@@ -249,91 +226,17 @@ class DreamVideoGenerator {
     }
 
     /**
-     * Parse structured prompt from GPT (JSON) or fall back to simple string
-     */
-    private parseStructuredPrompt(prompt: string): {
-        lumaPrompt: string;
-        cameraMotion?: string;
-        style?: string;
-        lighting?: string;
-    } {
-        try {
-            // Try to parse as JSON first
-            const structured: StructuredPrompt = JSON.parse(prompt);
-
-            console.log("🎨 Using structured prompt:", structured);
-
-            return {
-                lumaPrompt: structured.prompt,
-                cameraMotion: this.mapCameraMovement(structured.camera),
-                style: structured.style,
-                lighting: structured.lighting,
-            };
-        } catch (error) {
-            // Fall back to simple string prompt
-            console.log("📝 Using simple text prompt:", prompt);
-            return {
-                lumaPrompt: prompt,
-            };
-        }
-    }
-
-    /**
-     * Map camera descriptions to Luma's expected values
-     */
-    private mapCameraMovement(camera: string): string {
-        const cameraLower = camera.toLowerCase();
-
-        if (cameraLower.includes("static") || cameraLower.includes("still"))
-            return "static";
-        if (cameraLower.includes("slow") || cameraLower.includes("gentle"))
-            return "slow";
-        if (cameraLower.includes("fast") || cameraLower.includes("quick"))
-            return "fast";
-        if (cameraLower.includes("dynamic") || cameraLower.includes("moving"))
-            return "dynamic";
-
-        // Default to dynamic for dreamlike motion
-        return "dynamic";
-    }
-
-    /**
-     * Create a new video generation request with enhanced parameters
+     * Create a new video generation request (matching dream-recorder exactly)
      */
     private async createGeneration(prompt: string): Promise<string> {
-        const parsedPrompt = this.parseStructuredPrompt(prompt);
-
-        // Build enhanced request body
-        const requestBody: any = {
-            prompt: parsedPrompt.lumaPrompt,
+        const requestBody = {
+            prompt: prompt.trim(),
             model: this.model,
             resolution: this.resolution,
             duration: this.duration,
             aspect_ratio: this.aspectRatio,
-            loop: true, // Perfect loops for dream aesthetic
+            loop: true, // Make videos loop seamlessly
         };
-
-        // Add enhanced parameters if available
-        if (parsedPrompt.cameraMotion) {
-            requestBody.camera_motion = parsedPrompt.cameraMotion;
-        }
-
-        // Add style hints (Luma may not support all of these yet, but future-proofing)
-        if (parsedPrompt.style) {
-            // Extract style keywords for potential future parameters
-            const styleKeywords = parsedPrompt.style.toLowerCase();
-            if (styleKeywords.includes("cinematic")) {
-                requestBody.style_preset = "cinematic";
-            }
-            if (
-                styleKeywords.includes("dreamlike") ||
-                styleKeywords.includes("ethereal")
-            ) {
-                requestBody.style_preset = "dreamy";
-            }
-        }
-
-        console.log("🎬 Sending enhanced request to Luma:", requestBody);
 
         const response = await fetch(this.GENERATIONS_ENDPOINT, {
             method: "POST",
@@ -360,16 +263,40 @@ class DreamVideoGenerator {
             );
         }
 
+        console.log("🎬 Generation started:", data.id);
         return data.id;
     }
 
     /**
-     * Extend an existing video with additional content
+     * Extend an existing video with additional content (matching dream-recorder)
      */
     private async extendVideo(
         baseGenerationId: string,
         extensionPrompt: string
     ): Promise<string> {
+        // Parse extension prompt if it contains the ***** separator (like dream-recorder)
+        let promptToUse = extensionPrompt;
+        if (extensionPrompt.includes("*****")) {
+            // Use the second part after the separator
+            const parts = extensionPrompt.split("*****");
+            promptToUse = parts[1]?.trim() || extensionPrompt;
+        }
+
+        const requestBody = {
+            model: this.model,
+            resolution: this.resolution,
+            duration: this.duration,
+            aspect_ratio: this.aspectRatio,
+            loop: true, // Make extended videos loop seamlessly
+            prompt: promptToUse,
+            keyframes: {
+                frame0: {
+                    type: "generation",
+                    id: baseGenerationId,
+                },
+            },
+        };
+
         const response = await fetch(this.GENERATIONS_ENDPOINT, {
             method: "POST",
             headers: {
@@ -377,19 +304,7 @@ class DreamVideoGenerator {
                 authorization: `Bearer ${this.apiKey}`,
                 "content-type": "application/json",
             },
-            body: JSON.stringify({
-                model: this.model,
-                resolution: this.resolution,
-                duration: this.duration,
-                aspect_ratio: this.aspectRatio,
-                prompt: extensionPrompt,
-                keyframes: {
-                    frame0: {
-                        type: "generation",
-                        id: baseGenerationId,
-                    },
-                },
-            }),
+            body: JSON.stringify(requestBody),
         });
 
         if (!response.ok) {
@@ -407,11 +322,12 @@ class DreamVideoGenerator {
             );
         }
 
+        console.log("🔄 Extension started:", data.id);
         return data.id;
     }
 
     /**
-     * Poll for video generation completion
+     * Poll for video generation completion (matching dream-recorder)
      */
     private async pollForCompletion(generationId: string): Promise<string> {
         for (let attempt = 0; attempt < this.maxPollAttempts; attempt++) {
@@ -427,9 +343,11 @@ class DreamVideoGenerator {
                 );
 
                 if (!response.ok) {
-                    console.warn(
-                        `Status check failed with code ${response.status}, retrying...`
-                    );
+                    if (attempt % 10 === 0) {
+                        console.warn(
+                            `Status check failed (${response.status}), retrying...`
+                        );
+                    }
                     await this.sleep(this.pollInterval);
                     continue;
                 }
@@ -467,12 +385,15 @@ class DreamVideoGenerator {
                     estimatedTimeRemaining: estimatedTime,
                 });
 
-                // Log progress periodically
-                if (attempt === 0 || attempt % 10 === 0) {
+                // Log progress less frequently (every 20 attempts or on state change)
+                if (
+                    attempt === 0 ||
+                    attempt % 20 === 0 ||
+                    state === "completed" ||
+                    state === "succeeded"
+                ) {
                     console.log(
-                        `📊 Generation status: ${state} (attempt ${
-                            attempt + 1
-                        }/${this.maxPollAttempts})`
+                        `📊 ${state} (${attempt + 1}/${this.maxPollAttempts})`
                     );
                 }
 
@@ -486,7 +407,6 @@ class DreamVideoGenerator {
                         );
                     }
 
-                    console.log("🎉 Video generation completed successfully");
                     return videoUrl;
                 }
 
@@ -502,10 +422,11 @@ class DreamVideoGenerator {
                 if (attempt === this.maxPollAttempts - 1) {
                     throw error;
                 }
-                console.warn(
-                    `Polling attempt ${attempt + 1} failed, retrying...`,
-                    error
-                );
+                if (attempt % 10 === 0) {
+                    console.warn(
+                        `Polling attempt ${attempt + 1} failed, retrying...`
+                    );
+                }
                 await this.sleep(this.pollInterval);
             }
         }
@@ -557,11 +478,9 @@ class DreamVideoGenerator {
             }
 
             const blob = await response.blob();
-
-            // Create blob URL for React Native
             const blobUrl = URL.createObjectURL(blob);
 
-            console.log("📥 Video downloaded successfully");
+            console.log("📥 Video downloaded");
             return blobUrl;
         } catch (error) {
             console.error("❌ Video download failed:", error);
@@ -637,11 +556,10 @@ export const getVideoGenerator = (): DreamVideoGenerator => {
 };
 
 /**
- * Helper function to generate a video directly
- * @param prompt - The cinematic prompt
+ * Helper function to generate a video directly (matching dream-recorder)
+ * @param prompt - Simple natural language prompt from GPT
  * @param apiKey - LumaLabs API key
  * @param extendMode - Whether to use extended mode (default: false)
- * @param extensionPrompt - Optional extension prompt
  * @returns Generated video information
  */
 export const generateDreamVideo = async (
@@ -678,7 +596,7 @@ export const onVideoGenerationProgress = (
 };
 
 /**
- * Enhanced generateDreamVideo with progress tracking
+ * Enhanced generateDreamVideo with progress tracking (matching dream-recorder behavior)
  */
 export const generateDreamVideoWithProgress = async (
     prompt: string,
@@ -693,4 +611,35 @@ export const generateDreamVideoWithProgress = async (
     return globalGenerator.generateVideo(prompt, extendMode);
 };
 
+/**
+ * Create a video processing service for post-processing downloaded videos
+ * This is where the dream aesthetic will be applied (like dream-recorder does)
+ * TODO: Implement FFmpeg-based post-processing for dream effects
+ */
+export const createVideoProcessor = () => {
+    // This will be implemented to apply dream effects via post-processing
+    // after videos are downloaded from Luma, just like dream-recorder does
+    console.log("🎭 Video post-processing not yet implemented");
+    console.log("💡 Dream effects should be applied here via FFmpeg filters");
+};
+
 export default DreamVideoGenerator;
+
+/* 
+EXAMPLE OF WHAT LUMA WILL RECEIVE (Dream-Recorder Style):
+
+When you send a simple prompt from GPT, Luma will receive clean, natural language:
+
+{
+    "prompt": "white doves soaring through deep blue sky, their wings dissolving and morphing into pink and purple clouds, feathers transforming into wisps of vapor",
+    "model": "ray-flash-2", 
+    "resolution": "540p",
+    "duration": "5s",
+    "aspect_ratio": "1:1"
+}
+
+Simple, natural language prompts work best with Luma. The dream aesthetic will be applied
+through post-processing filters (FFmpeg) after download, just like the dream-recorder does.
+This approach produces much better, more predictable results than overloading Luma with 
+style descriptions.
+*/

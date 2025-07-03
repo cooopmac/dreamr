@@ -1,8 +1,8 @@
 // Dream Video Generation Configuration
-// Based on dream-recorder config.template.json to ensure consistent styling
+// Based on dream-recorder config to ensure identical behavior
 
 export interface DreamConfig {
-    // OpenAI Settings
+    // OpenAI Settings (matching dream-recorder)
     whisper: {
         model: "whisper-1" | "gpt-4o-transcribe" | "gpt-4o-mini-transcribe";
     };
@@ -15,7 +15,7 @@ export interface DreamConfig {
         systemPromptExtend: string;
     };
 
-    // Luma Labs Settings
+    // Luma Labs Settings (matching dream-recorder)
     luma: {
         model: "ray-flash-2" | "ray-2" | "ray-1-6";
         resolution: "540p" | "720p" | "1080p" | "4k";
@@ -26,7 +26,7 @@ export interface DreamConfig {
         maxPollAttempts: number;
     };
 
-    // Video Processing (FFmpeg-like filters for dream aesthetic)
+    // Video Processing (FFmpeg filters for dream aesthetic)
     videoProcessing: {
         brightness: number; // 0.2
         vibrance: number; // 2
@@ -54,7 +54,12 @@ export interface DreamConfig {
     };
 }
 
-// Default configuration matching dream-recorder defaults
+// System prompts matching dream-recorder exactly
+const DREAM_RECORDER_SYSTEM_PROMPT = `You are a creative video prompt engineer specializing in Luma Dream Machine. Your task is to transform dream descriptions into cinematic video prompts using clear, simple language. Be specific about useful visual elements and emotional tone. Keep the prompt concise but rich in visual detail, formatted as a single, succinct sentence.`;
+
+const DREAM_RECORDER_SYSTEM_PROMPT_EXTEND = `You are a creative video prompt engineer specializing in Luma Dream Machine. Your task is to transform dream descriptions into cinematic video prompts using clear, simple language. Be specific about useful visual elements and emotional tone. Keep the prompt concise but rich in visual detail, formatted as two succinct sentences. Break down the prompt into exactly two clear separate parts, using '*****' as a separator between part one and part two.`;
+
+// Default configuration matching dream-recorder
 export const DREAM_CONFIG: DreamConfig = {
     whisper: {
         model: "whisper-1",
@@ -64,42 +69,15 @@ export const DREAM_CONFIG: DreamConfig = {
         model: "gpt-4o-mini",
         temperature: 0.7,
         maxTokens: 400,
-        systemPrompt: `You are a creative video prompt engineer specializing in Luma Dream Machine. Transform dream descriptions into structured JSON for cinematic video generation.
-
-Output ONLY valid JSON in this exact format:
-{
-  "scene": "Main visual description with specific details, objects, and setting",
-  "camera": "Camera movement and angle (e.g., 'slow dolly forward', 'aerial descent', 'static wide shot')",
-  "lighting": "Lighting and atmosphere (e.g., 'golden hour glow', 'ethereal moonlight', 'soft diffused light')",
-  "style": "Visual style and mood (e.g., 'dreamlike with floating particles', 'surreal and painterly', 'cinematic with depth of field')",
-  "prompt": "Single cohesive sentence combining all elements for Luma"
-}
-
-Make it dreamlike, cinematic, and visually rich. Focus on ethereal, floating, glowing, and magical elements.`,
-        systemPromptExtend: `You are a creative video prompt engineer specializing in Luma Dream Machine. Transform dream descriptions into structured JSON for extended cinematic video generation.
-
-Output ONLY valid JSON in this exact format:
-{
-  "scene": "Main visual description for first part",
-  "camera": "Camera movement for first part",
-  "lighting": "Lighting for first part", 
-  "style": "Visual style for first part",
-  "prompt": "First part cohesive sentence",
-  "extend_scene": "Visual description for second part that flows from first",
-  "extend_camera": "Camera movement for second part",
-  "extend_lighting": "Lighting transition for second part",
-  "extend_style": "Visual style continuation",
-  "extend_prompt": "Second part cohesive sentence"
-}
-
-Create seamless transitions between parts. Make it dreamlike and cinematic.`,
+        systemPrompt: DREAM_RECORDER_SYSTEM_PROMPT,
+        systemPromptExtend: DREAM_RECORDER_SYSTEM_PROMPT_EXTEND,
     },
 
     luma: {
         model: "ray-flash-2",
         resolution: "540p",
         duration: "5s",
-        aspectRatio: "9:16",
+        aspectRatio: "1:1",
         extend: false,
         pollInterval: 5,
         maxPollAttempts: 100,
@@ -133,7 +111,6 @@ Create seamless transitions between parts. Make it dreamlike and cinematic.`,
 // Configuration getter with environment overrides
 export const getDreamConfig = (): DreamConfig => {
     // You can add environment variable overrides here if needed
-    // For example: process.env.LUMA_MODEL || DREAM_CONFIG.luma.model
     return DREAM_CONFIG;
 };
 
@@ -158,31 +135,23 @@ export const getVideoProcessingConfig = () => {
     return config.videoProcessing;
 };
 
-// Cost estimation (matching dream-recorder costs)
-export const DREAM_COSTS = {
-    openai: {
-        whisper: 0.006, // per minute
-        gpt4oMini: 0.00015, // per 1K input tokens, 0.0006 per 1K output tokens
-    },
-    luma: {
-        ray_flash_2: 0.14, // per 5s video
-        ray_2: 0.28, // per 5s video
-    },
-} as const;
-
+// Cost estimation helper
 export const estimateDreamCost = (
     audioMinutes: number = 1,
     extend: boolean = false
 ): number => {
-    const whisperCost = audioMinutes * DREAM_COSTS.openai.whisper;
-    const gptCost = DREAM_COSTS.openai.gpt4oMini * 2; // rough estimate for tokens
-    const lumaCost = DREAM_COSTS.luma.ray_flash_2 * (extend ? 2 : 1);
+    // OpenAI costs (Whisper + GPT)
+    const whisperCost = audioMinutes * 0.006; // $0.006 per minute
+    const gptCost = 0.002; // ~$0.002 per request
+
+    // Luma costs
+    const lumaCost = extend ? 0.28 : 0.14; // $0.14 per 5s video, $0.28 for extended
 
     return whisperCost + gptCost + lumaCost;
 };
 
-// Video Processing Instructions (for reference or future web implementation)
-// These are the exact FFmpeg filters used in dream-recorder for the dream aesthetic
+// Video Processing Instructions (for reference or future implementation)
+// These are the exact FFmpeg filters used in dream-recorder
 export const VIDEO_PROCESSING_INSTRUCTIONS = {
     filters: [
         `eq=brightness=${DREAM_CONFIG.videoProcessing.brightness}`, // Slight brightness boost
@@ -193,32 +162,4 @@ export const VIDEO_PROCESSING_INSTRUCTIONS = {
     ],
     description:
         "These filters create the signature dream-like aesthetic: enhanced brightness and vibrance for vivid colors, denoising for clarity, bilateral filtering for smooth edges, and subtle noise for organic texture.",
-} as const;
-
-// Preset configurations for different dream styles (future enhancement)
-export const DREAM_STYLE_PRESETS = {
-    cinematic: {
-        ...DREAM_CONFIG,
-        luma: {
-            ...DREAM_CONFIG.luma,
-            aspectRatio: "21:9" as const,
-            resolution: "540p" as const,
-        },
-    },
-    portrait: {
-        ...DREAM_CONFIG,
-        luma: {
-            ...DREAM_CONFIG.luma,
-            aspectRatio: "9:16" as const,
-            resolution: "540p" as const,
-        },
-    },
-    square: {
-        ...DREAM_CONFIG,
-        luma: {
-            ...DREAM_CONFIG.luma,
-            aspectRatio: "1:1" as const,
-            resolution: "540p" as const,
-        },
-    },
 } as const;
